@@ -1,6 +1,6 @@
 "use client";
 
-import { showConnect } from "@stacks/connect";
+import { connect, getLocalStorage } from "@stacks/connect";
 import { useState, useCallback } from "react";
 import { DESIGN, APP_URL } from "@/lib/constants";
 
@@ -14,20 +14,18 @@ export function WalletConnectButton({ onConnect }: WalletConnectButtonProps) {
   const truncateAddress = (addr: string): string =>
     `${addr.slice(0, 5)}…${addr.slice(-3)}`;
 
-  const handleConnect = useCallback(() => {
-    showConnect({
-      appDetails: {
-        name: "The Million STX Grid",
-        icon: `${APP_URL}/logo.svg`,
-      },
-      onFinish: (payload) => {
-        const addr =
-          payload.authResponsePayload.profile.stxAddress.mainnet;
-        setAddress(addr);
-        onConnect(addr);
-      },
-      onCancel: () => {},
-    });
+  const handleConnect = useCallback(async () => {
+    try {
+      await connect();
+      const data = getLocalStorage();
+      const stxAddress = data?.addresses?.stx?.[0]?.address;
+      if (stxAddress) {
+        setAddress(stxAddress);
+        onConnect(stxAddress);
+      }
+    } catch {
+      // user cancelled or wallet unavailable
+    }
   }, [onConnect]);
 
   return (
