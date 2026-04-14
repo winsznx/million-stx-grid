@@ -39,6 +39,9 @@ function parseReprValue(repr: string): Record<string, string> | null {
   const eventMatch = repr.match(/event:\s*"([^"]+)"/);
   if (eventMatch) result.event = eventMatch[1];
 
+  const timestampMatch = repr.match(/timestamp:\s*u(\d+)/);
+  if (timestampMatch) result.timestamp = timestampMatch[1];
+
   if (!result.event || !result.x || !result.y || !result.color) return null;
   return result;
 }
@@ -52,7 +55,7 @@ export async function fetchAllPixelEvents(
   let offset = 0;
 
   while (true) {
-    const url = `${hiroApiBase}/extended/v1/contract/${contractIdentifier}/events?limit=${limit}&offset=${offset}`;
+    const url = `${hiroApiBase}/extended/v1/contract/${contractIdentifier}/events?limit=${PAGE_SIZE}&offset=${offset}`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -77,11 +80,12 @@ export async function fetchAllPixelEvents(
         painter: parsed.painter,
         txId: entry.tx_id,
         blockHeight: entry.block_height,
+        timestamp: parsed.timestamp ? parseInt(parsed.timestamp, 10) : null,
       });
     }
 
     if (data.results.length < PAGE_SIZE) break;
-    offset += limit;
+    offset += PAGE_SIZE;
   }
 
   events.sort((a, b) => a.blockHeight - b.blockHeight);

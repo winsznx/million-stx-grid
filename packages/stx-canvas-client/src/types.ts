@@ -5,6 +5,7 @@ export interface PixelEvent {
   painter: string;
   txId: string;
   blockHeight: number;
+  timestamp: number | null;
 }
 
 export type GridState = Map<string, { color: string; painter: string }>;
