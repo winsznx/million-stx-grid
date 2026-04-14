@@ -41,3 +41,4 @@ export const DESIGN = {
   fontBody: "'Syne', sans-serif",
 } as const;
 export const PALETTE_COLUMNS = 8;
+export const PALETTE_SWATCH_SIZE = 28;
