@@ -1,0 +1,15 @@
+[project]
+name = "stx-canvas"
+description = "100x100 collaborative pixel canvas on Stacks"
+authors = []
+telemetry = false
+cache_dir = "./.cache"
+
+[contracts.stx-canvas]
+path = "contracts/stx-canvas.clar"
+clarity_version = 4
+epoch = "3.3"
+
+[repl.analysis]
+passes = ["check_checker"]
+check_checker = { trusted_sender = false, trusted_caller = false, callee_filter = false }
