@@ -44,6 +44,7 @@ export function WalletConnectButton({ onConnect }: WalletConnectButtonProps) {
         cursor: "pointer",
         transition: "transform 0.1s, box-shadow 0.1s",
         whiteSpace: "nowrap",
+        letterSpacing: "0.05em",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translate(2px, 2px)";
