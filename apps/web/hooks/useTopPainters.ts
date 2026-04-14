@@ -23,3 +23,9 @@ export function useTopPainters(
       .slice(0, limit);
   }, [events, limit]);
 }
+
+export function useUniquePainterCount(events: PixelEvent[]): number {
+  return useMemo(() => {
+    return new Set(events.map((e) => e.painter)).size;
+  }, [events]);
+}
