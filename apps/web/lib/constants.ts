@@ -51,3 +51,4 @@ export const OG_IMAGE_WIDTH = 1200;
 export const OG_IMAGE_HEIGHT = 630;
 export const FAVICON_SIZE = 32;
 export const APPLE_ICON_SIZE = 180;
+export const PENDING_PULSE_DURATION = "1.5s";
