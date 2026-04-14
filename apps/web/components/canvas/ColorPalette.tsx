@@ -34,7 +34,7 @@ export function ColorPalette({ selectedColor, onSelectColor }: ColorPaletteProps
                 : "none",
               cursor: "pointer",
               padding: 0,
-              transition: "box-shadow 0.1s, transform 0.1s",
+              transition: "box-shadow 0.1s, transform 0.1s, border-color 0.1s",
             }}
             onMouseEnter={(e) => {
               if (!isSelected) {
