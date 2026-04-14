@@ -37,3 +37,7 @@ export function quantizeToNearestPaletteColor(
 
   return closest;
 }
+
+export function isValidHexColor(hex: string): boolean {
+  return /^#[0-9A-Fa-f]{6}$/.test(hex);
+}
