@@ -57,3 +57,4 @@ export const BUTTON_HOVER_OFFSET = 2;
 export const IS_PRODUCTION = process.env.NODE_ENV === "production";
 export const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
 export const NETWORK_TYPE = process.env.NEXT_PUBLIC_NETWORK ?? "mainnet";
+export const EXPLORER_BASE_URL = "https://explorer.hiro.so";
