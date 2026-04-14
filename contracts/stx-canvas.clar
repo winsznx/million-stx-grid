@@ -10,6 +10,8 @@
 
 (define-data-var total-pixels-painted uint u0)
 
+(define-map painter-pixel-count principal uint)
+
 (define-private (is-valid-coordinate (x uint) (y uint))
   (and (< x GRID-SIZE) (< y GRID-SIZE))
 )
