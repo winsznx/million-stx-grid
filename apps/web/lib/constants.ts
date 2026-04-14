@@ -62,3 +62,4 @@ export const MAX_PENDING_PIXELS = 5;
 export const HEADER_HEIGHT = 56;
 export const FOOTER_HEIGHT = 80;
 export const PAINT_BUTTON_TEXT = "PAINT PIXEL";
+export const CONNECT_BUTTON_TEXT = "Connect Wallet";
