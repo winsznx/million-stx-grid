@@ -1,10 +1,10 @@
-export const HIRO_API_BASE = process.env.NEXT_PUBLIC_HIRO_API_BASE!;
-export const CONTRACT_DEPLOYER = process.env.NEXT_PUBLIC_CONTRACT_DEPLOYER!;
-export const CONTRACT_NAME = process.env.NEXT_PUBLIC_CONTRACT_NAME!;
+export const HIRO_API_BASE = process.env.NEXT_PUBLIC_HIRO_API_BASE ?? "https://api.hiro.so";
+export const CONTRACT_DEPLOYER = process.env.NEXT_PUBLIC_CONTRACT_DEPLOYER ?? "";
+export const CONTRACT_NAME = process.env.NEXT_PUBLIC_CONTRACT_NAME ?? "stx-canvas";
 export const CONTRACT_IDENTIFIER = `${CONTRACT_DEPLOYER}.${CONTRACT_NAME}`;
-export const GRID_SIZE = Number(process.env.NEXT_PUBLIC_GRID_SIZE!);
-export const POLL_INTERVAL_MS = Number(process.env.NEXT_PUBLIC_POLL_INTERVAL_MS!);
-export const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
+export const GRID_SIZE = Number(process.env.NEXT_PUBLIC_GRID_SIZE ?? "100");
+export const POLL_INTERVAL_MS = Number(process.env.NEXT_PUBLIC_POLL_INTERVAL_MS ?? "15000");
+export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "";
 
 export const PIXEL_SIZE = 6;
 export const DEVICE_PIXEL_RATIO_DEFAULT = 1;
