@@ -13,7 +13,8 @@ export function CoordinateDisplay({ x, y, painter }: CoordinateDisplayProps) {
     `${addr.slice(0, 5)}…${addr.slice(-3)}`;
 
   return (
-    <div style={{ fontFamily: DESIGN.fontDisplay, fontSize: 14 }}>
+    <div style={{ fontFamily: DESIGN.fontDisplay, fontSize: 14,
+        letterSpacing: "0.05em" }}>
       <span style={{ color: DESIGN.textPrimary }}>
         X: {x ?? "—"}  Y: {y ?? "—"}
       </span>
