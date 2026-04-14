@@ -46,3 +46,7 @@
 (define-read-only (get-painter-count (painter principal))
   (ok (default-to u0 (map-get? painter-pixel-count painter)))
 )
+
+(define-read-only (get-grid-size)
+  (ok GRID-SIZE)
+)
