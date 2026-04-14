@@ -23,6 +23,7 @@ export async function broadcastPixelQueue(
 ): Promise<void> {
   const network = new StacksMainnet();
   const total = pixels.length;
+  const startTime = Date.now();
 
   for (let i = 0; i < total; i++) {
     const pixel = pixels[i];
