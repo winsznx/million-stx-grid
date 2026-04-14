@@ -120,3 +120,11 @@ img, svg {
 
 .border-subtle { border: 1px solid rgba(255, 255, 255, 0.05); }
 .bg-card { background: rgba(255, 255, 255, 0.02); }
+
+.transition-fast {
+  transition: all 0.1s ease;
+}
+
+.transition-normal {
+  transition: all 0.2s ease;
+}
