@@ -48,7 +48,7 @@ export async function fetchAllPixelEvents(
   hiroApiBase: string
 ): Promise<PixelEvent[]> {
   const events: PixelEvent[] = [];
-  const limit = 50;
+  const PAGE_SIZE = 50;
   let offset = 0;
 
   while (true) {
@@ -78,7 +78,7 @@ export async function fetchAllPixelEvents(
       });
     }
 
-    if (data.results.length < limit) break;
+    if (data.results.length < PAGE_SIZE) break;
     offset += limit;
   }
 
