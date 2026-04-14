@@ -50,3 +50,7 @@
 (define-read-only (get-grid-size)
   (ok GRID-SIZE)
 )
+
+(define-read-only (is-pixel-painted (x uint) (y uint))
+  (ok (is-some (map-get? pixel-colors { x: x, y: y })))
+)
