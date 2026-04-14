@@ -5,3 +5,4 @@ export { encodeCoord, decodeCoord, isValidCoord, coordToIndex, indexToCoord } fr
 export { useCanvasSync } from "./hooks/useCanvasSync";
 export { getGridDimensions, countFilledPixels, getPixelAt } from "./grid/gridUtils";
 export { parseEventRepr } from "./grid/parseEventRepr";
+export { getColorDistribution, getPainterDistribution, getGridFillRate } from "./grid/gridStats";
