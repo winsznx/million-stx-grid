@@ -26,6 +26,7 @@ export function TopPainters({ painters }: TopPaintersProps) {
         style={{
           width: "100%",
           borderCollapse: "collapse",
+          width: "100%",
           fontFamily: DESIGN.fontDisplay,
           fontSize: 13,
         }}
