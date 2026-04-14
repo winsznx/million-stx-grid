@@ -9,3 +9,7 @@ export async function fetchTotalPainted(): Promise<number> {
   const events = await fetchGridEvents();
   return events.length;
 }
+
+export function getUniquePainters(events: PixelEvent[]): string[] {
+  return Array.from(new Set(events.map(e => e.painter)));
+}
