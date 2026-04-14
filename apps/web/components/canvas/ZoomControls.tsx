@@ -16,6 +16,7 @@ const buttonBase: React.CSSProperties = {
   color: DESIGN.textPrimary,
   fontFamily: DESIGN.fontDisplay,
   fontSize: 18,
+  lineHeight: 1,
   cursor: "pointer",
   transition: "transform 0.1s, box-shadow 0.1s",
 };
