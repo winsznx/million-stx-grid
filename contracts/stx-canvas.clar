@@ -1,5 +1,7 @@
+;; stx-canvas — Clarity 4 (epoch 3.3)
+;; 100×100 collaborative pixel canvas on Stacks Mainnet
+
 (define-constant GRID-SIZE u100)
-;; Maximum grid dimension for coordinate validation
 (define-constant ERR-OUT-OF-BOUNDS (err u100))
 (define-constant ERR-INVALID-COLOR (err u101))
 
@@ -28,9 +30,19 @@
       { x: x, y: y }
       { color: color, painter: tx-sender }
     )
-        (var-set total-pixels-painted (+ (var-get total-pixels-painted) u1))
-    (map-set painter-pixel-count tx-sender (+ (default-to u0 (map-get? painter-pixel-count tx-sender)) u1))
-    (print { event: "pixel-painted", x: x, y: y, color: color, painter: tx-sender })
+    (var-set total-pixels-painted (+ (var-get total-pixels-painted) u1))
+    (map-set painter-pixel-count
+      tx-sender
+      (+ (default-to u0 (map-get? painter-pixel-count tx-sender)) u1)
+    )
+    (print {
+      event: "pixel-painted",
+      x: x,
+      y: y,
+      color: color,
+      painter: tx-sender,
+      timestamp: stacks-block-time
+    })
     (ok true)
   )
 )
@@ -61,4 +73,8 @@
 
 (define-private (get-pixel-at-coord (coord { x: uint, y: uint }))
   (map-get? pixel-colors coord)
+)
+
+(define-read-only (get-contract-id)
+  (ok current-contract)
 )
