@@ -54,3 +54,11 @@
 (define-read-only (is-pixel-painted (x uint) (y uint))
   (ok (is-some (map-get? pixel-colors { x: x, y: y })))
 )
+
+(define-read-only (get-pixel-batch (coords (list 10 { x: uint, y: uint })))
+  (ok (map get-pixel-at-coord coords))
+)
+
+(define-private (get-pixel-at-coord (coord { x: uint, y: uint }))
+  (map-get? pixel-colors coord)
+)
