@@ -114,3 +114,6 @@ img, svg {
 .text-danger { color: #ff3c6e; }
 .text-muted { color: #5a5a7a; }
 .text-primary { color: #e8e8f0; }
+
+.font-display { font-family: 'JetBrains Mono', monospace; }
+.font-body { font-family: 'Syne', sans-serif; }
