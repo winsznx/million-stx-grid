@@ -14,6 +14,7 @@ export function ColorPalette({ selectedColor, onSelectColor }: ColorPaletteProps
         display: "grid",
         gridTemplateColumns: "repeat(8, 28px)",
         gap: 4,
+        padding: 4,
       }}
     >
       {COLOR_PALETTE.map((color) => {
