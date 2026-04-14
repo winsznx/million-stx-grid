@@ -7,7 +7,6 @@ import { LiveTxFeed } from "@/components/stats/LiveTxFeed";
 import { useTopPainters } from "@/hooks/useTopPainters";
 import { CONTRACT_IDENTIFIER, HIRO_API_BASE, POLL_INTERVAL_MS, DESIGN } from "@/lib/constants";
 import Link from "next/link";
-import type { Metadata } from "next";
 
 export default function StatsPage() {
   const [events, setEvents] = useState<PixelEvent[]>([]);
