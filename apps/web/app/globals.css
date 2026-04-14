@@ -76,3 +76,7 @@ button {
   white-space: nowrap;
   border-width: 0;
 }
+
+::placeholder {
+  color: #5a5a7a;
+}
