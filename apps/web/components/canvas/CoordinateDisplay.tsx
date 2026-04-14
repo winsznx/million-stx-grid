@@ -19,7 +19,8 @@ export function CoordinateDisplay({ x, y, painter }: CoordinateDisplayProps) {
         X: {x ?? "—"}  Y: {y ?? "—"}
       </span>
       {painter && (
-        <div style={{ color: DESIGN.textMuted, fontSize: 12, marginTop: 2 }}>
+        <div style={{ color: DESIGN.textMuted, fontSize: 12, marginTop: 2,
+          letterSpacing: "0.02em" }}>
           Last painted by: {truncateAddress(painter)}
         </div>
       )}
