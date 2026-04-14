@@ -3,7 +3,7 @@ import { fetchAllPixelEvents } from "../grid/fetchAllEvents";
 import { replayEventsToGrid } from "../grid/replayEvents";
 import { CanvasSyncResult, GridState } from "../types";
 
-const DEFAULT_POLL_INTERVAL_MS = 15000;
+const DEFAULT_POLL_INTERVAL_MS = 15_000;
 
 export function useCanvasSync(
   contractIdentifier: string,
