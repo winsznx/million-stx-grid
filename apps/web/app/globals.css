@@ -128,3 +128,7 @@ img, svg {
 .transition-normal {
   transition: all 0.2s ease;
 }
+
+.cursor-crosshair { cursor: crosshair; }
+.cursor-pointer { cursor: pointer; }
+.pointer-events-none { pointer-events: none; }
