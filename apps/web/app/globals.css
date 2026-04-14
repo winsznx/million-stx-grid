@@ -44,3 +44,16 @@ a {
 button {
   font-family: inherit;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5a5a7a;
+  border-radius: 3px;
+}
