@@ -23,7 +23,7 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
     canvas.width = CANVAS_SIZE * dpr;
     canvas.height = CANVAS_SIZE * dpr;
     canvas.style.width = `${CANVAS_SIZE}px`;
@@ -46,7 +46,7 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
   useEffect(() => {
     const overlay = overlayRef.current;
     if (!overlay) return;
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
     overlay.width = CANVAS_SIZE * dpr;
     overlay.height = CANVAS_SIZE * dpr;
     overlay.style.width = `${CANVAS_SIZE}px`;
@@ -84,7 +84,7 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
       const ctx = overlay.getContext("2d");
       if (!ctx) return;
 
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
       ctx.clearRect(0, 0, overlay.width, overlay.height);
       ctx.save();
       ctx.scale(dpr, dpr);
