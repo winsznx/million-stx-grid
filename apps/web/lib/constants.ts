@@ -65,3 +65,4 @@ export const PAINT_BUTTON_TEXT = "PAINT PIXEL";
 export const CONNECT_BUTTON_TEXT = "Connect Wallet";
 export const APP_TITLE = "THE MILLION STX GRID";
 export const APP_TAGLINE = "r/place on Bitcoin";
+export const STATS_PAGE_TITLE = "Stats & Leaderboard";
