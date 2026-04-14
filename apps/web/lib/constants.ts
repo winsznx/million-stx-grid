@@ -50,3 +50,4 @@ export const STACKS_BLOCK_TIME_MINUTES = 10;
 export const OG_IMAGE_WIDTH = 1200;
 export const OG_IMAGE_HEIGHT = 630;
 export const FAVICON_SIZE = 32;
+export const APPLE_ICON_SIZE = 180;
