@@ -132,3 +132,15 @@ img, svg {
 .cursor-crosshair { cursor: crosshair; }
 .cursor-pointer { cursor: pointer; }
 .pointer-events-none { pointer-events: none; }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
