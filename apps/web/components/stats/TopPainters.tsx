@@ -8,7 +8,8 @@ interface TopPaintersProps {
 }
 
 export function TopPainters({ painters }: TopPaintersProps) {
-  const truncate = (addr: string) => `${addr.slice(0, 8)}…${addr.slice(-4)}`;
+  const truncate = (addr: string): string =>
+    addr.length > 12 ? `${addr.slice(0, 8)}…${addr.slice(-4)}` : addr;
 
   return (
     <div>
