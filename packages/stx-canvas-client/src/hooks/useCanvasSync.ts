@@ -17,9 +17,22 @@ export function useCanvasSync(
   const [error, setError] = useState<string | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isMountedRef = useRef(true);
+  const consecutiveErrorsRef = useRef(0);
+
+  const configValid =
+    !!contractIdentifier &&
+    !contractIdentifier.includes("undefined") &&
+    !!hiroApiBase &&
+    !hiroApiBase.includes("undefined");
 
   const fetchAndReplay = useCallback(
     async (isInitial: boolean) => {
+      if (!configValid) {
+        setError("Missing contract configuration. Check environment variables.");
+        setIsLoading(false);
+        return;
+      }
+
       if (isInitial) {
         setIsLoading(true);
       } else {
@@ -33,9 +46,16 @@ export function useCanvasSync(
         const newGrid = replayEventsToGrid(events);
         setGrid(newGrid);
         setTotalEvents(events.length);
+        consecutiveErrorsRef.current = 0;
       } catch (err) {
         if (!isMountedRef.current) return;
+        consecutiveErrorsRef.current += 1;
         setError(err instanceof Error ? err.message : "Failed to fetch canvas state");
+
+        if (consecutiveErrorsRef.current >= 3 && intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
       } finally {
         if (isMountedRef.current) {
           setIsLoading(false);
@@ -43,10 +63,11 @@ export function useCanvasSync(
         }
       }
     },
-    [contractIdentifier, hiroApiBase]
+    [contractIdentifier, hiroApiBase, configValid]
   );
 
   const refresh = useCallback(() => {
+    consecutiveErrorsRef.current = 0;
     fetchAndReplay(false);
   }, [fetchAndReplay]);
 
@@ -54,9 +75,11 @@ export function useCanvasSync(
     isMountedRef.current = true;
     fetchAndReplay(true);
 
-    intervalRef.current = setInterval(() => {
-      fetchAndReplay(false);
-    }, pollingIntervalMs);
+    if (configValid) {
+      intervalRef.current = setInterval(() => {
+        fetchAndReplay(false);
+      }, pollingIntervalMs);
+    }
 
     return () => {
       isMountedRef.current = false;
@@ -64,7 +87,7 @@ export function useCanvasSync(
         clearInterval(intervalRef.current);
       }
     };
-  }, [fetchAndReplay, pollingIntervalMs]);
+  }, [fetchAndReplay, pollingIntervalMs, configValid]);
 
   return { grid, totalEvents, isLoading, isRefreshing, error, refresh };
 }
