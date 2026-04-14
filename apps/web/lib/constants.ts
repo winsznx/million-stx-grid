@@ -44,3 +44,4 @@ export const PALETTE_COLUMNS = 8;
 export const PALETTE_SWATCH_SIZE = 28;
 export const TRUNCATE_START = 5;
 export const TRUNCATE_END = 3;
+export const TOP_PAINTERS_LIMIT = 20;
