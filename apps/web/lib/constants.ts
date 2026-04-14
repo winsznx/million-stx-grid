@@ -13,6 +13,9 @@ export const DEFAULT_BG_COLOR = "#1a1a2e";
 export const HIGHLIGHT_COLOR = "#00ff94";
 
 export const ZOOM_LEVELS = [1, 2, 4, 8] as const;
+export const DEFAULT_ZOOM = 1;
+export const MIN_ZOOM = ZOOM_LEVELS[0];
+export const MAX_ZOOM = ZOOM_LEVELS[ZOOM_LEVELS.length - 1];
 
 export const COLOR_PALETTE: string[] = [
   "#FFFFFF", "#E4E4E4", "#888888", "#222222",
