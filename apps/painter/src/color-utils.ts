@@ -41,3 +41,8 @@ export function quantizeToNearestPaletteColor(
 export function isValidHexColor(hex: string): boolean {
   return /^#[0-9A-Fa-f]{6}$/.test(hex);
 }
+
+export function hexToRgbArray(hex: string): [number, number, number] {
+  const { r, g, b } = hexToRgb(hex);
+  return [r, g, b];
+}
