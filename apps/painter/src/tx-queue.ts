@@ -78,5 +78,6 @@ export async function broadcastPixelQueue(
   }
 
   const endTime = Date.now();
-  console.log(`\nDone. ${total} pixels processed.`);
+  const durationSec = Math.round((endTime - startTime) / 1000);
+  console.log(`\nDone. ${total} pixels processed in ${durationSec}s.`);
 }
