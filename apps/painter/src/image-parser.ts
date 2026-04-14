@@ -19,7 +19,7 @@ export async function parseImageToPixels(
   const image = sharp(imagePath);
   const metadata = await image.metadata();
 
-  if (!metadata.width || !metadata.height) {
+  if (!metadata.width || !metadata.height || metadata.width === 0 || metadata.height === 0) {
     throw new Error("Could not read image dimensions");
   }
 
