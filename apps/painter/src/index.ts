@@ -66,7 +66,8 @@ async function main() {
   console.log(`Mode: ${args.dryRun ? "DRY RUN" : "LIVE"}\n`);
 
   const pixels = await parseImageToPixels(args.image, args.x, args.y);
-  console.log(`Found ${pixels.length} paintable pixels\n`);
+  console.log(`Found ${pixels.length} paintable pixels`);
+  console.log(`Estimated time: ${Math.ceil((pixels.length * args.delay) / 1000)}s\n`);
 
   await broadcastPixelQueue(
     pixels,
