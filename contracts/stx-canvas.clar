@@ -1,4 +1,5 @@
 (define-constant GRID-SIZE u100)
+;; Maximum grid dimension for coordinate validation
 (define-constant ERR-OUT-OF-BOUNDS (err u100))
 (define-constant ERR-INVALID-COLOR (err u101))
 
