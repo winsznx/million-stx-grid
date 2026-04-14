@@ -108,3 +108,9 @@ img, svg {
 .animate-slide-up {
   animation: slideUp 0.3s ease-out;
 }
+
+.text-neon-green { color: #00ff94; }
+.text-violet { color: #7b61ff; }
+.text-danger { color: #ff3c6e; }
+.text-muted { color: #5a5a7a; }
+.text-primary { color: #e8e8f0; }
