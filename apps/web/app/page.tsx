@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { connect, getLocalStorage } from "@stacks/connect";
 import { useCanvasSync, encodeCoord } from "@winsznx/stx-canvas-client";
 import { PixelCanvas } from "@/components/canvas/PixelCanvas";
 import { ColorPalette } from "@/components/canvas/ColorPalette";
@@ -17,7 +18,6 @@ import {
   DESIGN,
   COLOR_PALETTE,
   DEFAULT_ZOOM,
-  APP_URL,
 } from "@/lib/constants";
 import Link from "next/link";
 
@@ -56,18 +56,20 @@ export default function Home() {
     setHoverCoord({ x, y });
   }, []);
 
-  const handlePaint = useCallback(() => {
+  const handlePaint = useCallback(async () => {
     if (!selectedCoord) return;
 
     if (!walletAddress) {
-      const { showConnect } = require("@stacks/connect");
-      showConnect({
-        appDetails: { name: "The Million STX Grid", icon: `${APP_URL}/logo.svg` },
-        onFinish: (payload: { authResponsePayload: { profile: { stxAddress: { mainnet: string } } } }) => {
-          setWalletAddress(payload.authResponsePayload.profile.stxAddress.mainnet);
-        },
-        onCancel: () => {},
-      });
+      try {
+        await connect();
+        const data = getLocalStorage();
+        const stxAddress = data?.addresses?.stx?.[0]?.address;
+        if (stxAddress) {
+          setWalletAddress(stxAddress);
+        }
+      } catch {
+        // user cancelled
+      }
       return;
     }
 
@@ -78,7 +80,7 @@ export default function Home() {
     };
     setPendingPixels((prev) => [...prev, pending]);
 
-    callPaintPixel(
+    await callPaintPixel(
       selectedCoord.x,
       selectedCoord.y,
       selectedColor,
