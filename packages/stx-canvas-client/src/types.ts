@@ -9,6 +9,11 @@ export interface PixelEvent {
 
 export type GridState = Map<string, { color: string; painter: string }>;
 
+export interface FetchProgress {
+  pagesLoaded: number;
+  eventsLoaded: number;
+}
+
 export interface CanvasSyncResult {
   grid: GridState;
   totalEvents: number;
