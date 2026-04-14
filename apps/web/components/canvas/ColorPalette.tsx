@@ -52,3 +52,19 @@ export function ColorPalette({ selectedColor, onSelectColor }: ColorPaletteProps
     </div>
   );
 }
+
+export function getColorName(hex: string): string {
+  const names: Record<string, string> = {
+    "#FFFFFF": "White",
+    "#222222": "Black",
+    "#E50000": "Red",
+    "#02BE01": "Green",
+    "#0000EA": "Blue",
+    "#00FF94": "Neon Green",
+    "#7B61FF": "Violet",
+    "#FF3C6E": "Pink",
+    "#FFCC00": "Yellow",
+    "#00CFFF": "Cyan",
+  };
+  return names[hex.toUpperCase()] ?? hex;
+}
