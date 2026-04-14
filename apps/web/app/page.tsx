@@ -16,6 +16,7 @@ import {
   CANVAS_SIZE,
   DESIGN,
   COLOR_PALETTE,
+  DEFAULT_ZOOM,
 } from "@/lib/constants";
 import Link from "next/link";
 
@@ -35,7 +36,7 @@ export default function Home() {
   const [selectedColor, setSelectedColor] = useState(COLOR_PALETTE[17]);
   const [selectedCoord, setSelectedCoord] = useState<{ x: number; y: number } | null>(null);
   const [hoverCoord, setHoverCoord] = useState<{ x: number; y: number } | null>(null);
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(DEFAULT_ZOOM);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [pendingPixels, setPendingPixels] = useState<PendingPixel[]>([]);
 
