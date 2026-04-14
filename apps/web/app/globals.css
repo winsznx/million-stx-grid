@@ -57,3 +57,10 @@ button {
   background: #5a5a7a;
   border-radius: 3px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
