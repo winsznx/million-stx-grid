@@ -20,7 +20,8 @@ function timeAgo(blockHeight: number, latestBlock: number): string {
 export function LiveTxFeed({ events }: LiveTxFeedProps) {
   const recentEvents = events.slice(-20).reverse();
   const latestBlock = events.length > 0 ? events[events.length - 1].blockHeight : 0;
-  const truncate = (addr: string) => `${addr.slice(0, 5)}…${addr.slice(-3)}`;
+  const truncate = (addr: string): string =>
+    addr.length > 8 ? `${addr.slice(0, 5)}…${addr.slice(-3)}` : addr;
 
   return (
     <div>
