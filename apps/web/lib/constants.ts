@@ -45,3 +45,4 @@ export const PALETTE_SWATCH_SIZE = 28;
 export const TRUNCATE_START = 5;
 export const TRUNCATE_END = 3;
 export const TOP_PAINTERS_LIMIT = 20;
+export const LIVE_FEED_LIMIT = 20;
