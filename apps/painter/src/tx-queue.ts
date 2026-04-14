@@ -9,7 +9,7 @@ import {
 import { StacksMainnet } from "@stacks/network";
 import { PixelInstruction } from "./image-parser";
 
-function delay(ms: number): Promise<void> {
+function waitMs(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
@@ -72,7 +72,7 @@ export async function broadcastPixelQueue(
     }
 
     if (i < total - 1) {
-      await delay(delayMs);
+      await waitMs(delayMs);
     }
   }
 
