@@ -69,3 +69,4 @@ export const STATS_PAGE_TITLE = "Stats & Leaderboard";
 export const COLOR_PALETTE_SIZE = COLOR_PALETTE.length;
 export const TOTAL_GRID_PIXELS = GRID_SIZE * GRID_SIZE;
 export const CANVAS_BUFFER_SIZE = CANVAS_SIZE * 2;
+export const EVENT_PAGE_SIZE = 50;
