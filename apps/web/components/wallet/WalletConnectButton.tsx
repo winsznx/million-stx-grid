@@ -11,7 +11,7 @@ interface WalletConnectButtonProps {
 export function WalletConnectButton({ onConnect }: WalletConnectButtonProps) {
   const [address, setAddress] = useState<string | null>(null);
 
-  const truncateAddress = (addr: string) =>
+  const truncateAddress = (addr: string): string =>
     `${addr.slice(0, 5)}…${addr.slice(-3)}`;
 
   const handleConnect = useCallback(() => {
