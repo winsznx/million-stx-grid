@@ -85,3 +85,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
