@@ -48,3 +48,4 @@ export const TOP_PAINTERS_LIMIT = 20;
 export const LIVE_FEED_LIMIT = 20;
 export const STACKS_BLOCK_TIME_MINUTES = 10;
 export const OG_IMAGE_WIDTH = 1200;
+export const OG_IMAGE_HEIGHT = 630;
