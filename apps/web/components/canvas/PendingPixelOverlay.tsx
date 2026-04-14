@@ -39,12 +39,12 @@ export function PendingPixelOverlay({ pixels, zoom }: PendingPixelOverlayProps) 
             backgroundColor: pixel.color,
             opacity: 0.5,
             border: `1px dashed ${DESIGN.primaryNeon}`,
-            animation: "pulse 1.5s ease-in-out infinite",
+            animation: "pendingPulse 1.5s ease-in-out infinite",
           }}
         />
       ))}
       <style>{`
-        @keyframes pulse {
+        @keyframes pendingPulse {
           0%, 100% { opacity: 0.5; }
           50% { opacity: 0.8; }
         }
