@@ -54,3 +54,4 @@ export const APPLE_ICON_SIZE = 180;
 export const PENDING_PULSE_DURATION = "1.5s";
 export const BUTTON_SHADOW_OFFSET = 4;
 export const BUTTON_HOVER_OFFSET = 2;
+export const IS_PRODUCTION = process.env.NODE_ENV === "production";
