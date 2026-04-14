@@ -128,6 +128,7 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
         transform: `scale(${zoom})`,
         transformOrigin: "top left",
         imageRendering: "pixelated",
+        willChange: "transform",
       }}
     >
       <canvas
@@ -137,6 +138,7 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
           width: CANVAS_SIZE,
           height: CANVAS_SIZE,
           imageRendering: "pixelated",
+        willChange: "transform",
         }}
       />
       <canvas
@@ -153,6 +155,7 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
           height: CANVAS_SIZE,
           cursor: "crosshair",
           imageRendering: "pixelated",
+        willChange: "transform",
         }}
       />
     </div>
