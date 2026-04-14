@@ -28,7 +28,8 @@
       { x: x, y: y }
       { color: color, painter: tx-sender }
     )
-    (var-set total-pixels-painted (+ (var-get total-pixels-painted) u1))
+        (var-set total-pixels-painted (+ (var-get total-pixels-painted) u1))
+    (map-set painter-pixel-count tx-sender (+ (default-to u0 (map-get? painter-pixel-count tx-sender)) u1))
     (print { event: "pixel-painted", x: x, y: y, color: color, painter: tx-sender })
     (ok true)
   )
