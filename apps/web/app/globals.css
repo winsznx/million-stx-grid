@@ -80,3 +80,8 @@ button {
 ::placeholder {
   color: #5a5a7a;
 }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
