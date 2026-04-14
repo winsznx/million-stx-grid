@@ -9,9 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@stacks/connect": "^7.8.0",
-    "@stacks/network": "^6.13.0",
-    "@stacks/transactions": "^6.15.0",
+    "@stacks/connect": "^8.2.6",
+    "@stacks/transactions": "^7.4.0",
     "@vercel/og": "^0.6.0",
     "@winsznx/stx-canvas-client": "workspace:*",
     "next": "14.2.29",
