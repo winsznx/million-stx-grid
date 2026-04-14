@@ -154,6 +154,7 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
           width: CANVAS_SIZE,
           height: CANVAS_SIZE,
           cursor: "crosshair",
+          touchAction: "none",
           imageRendering: "pixelated",
         willChange: "transform",
         }}
