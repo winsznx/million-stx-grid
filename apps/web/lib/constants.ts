@@ -40,3 +40,4 @@ export const DESIGN = {
   fontDisplay: "'JetBrains Mono', monospace",
   fontBody: "'Syne', sans-serif",
 } as const;
+export const PALETTE_COLUMNS = 8;
