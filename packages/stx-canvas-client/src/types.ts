@@ -17,3 +17,8 @@ export interface CanvasSyncResult {
   error: string | null;
   refresh: () => void;
 }
+
+export interface PaginationOptions {
+  limit?: number;
+  maxPages?: number;
+}
