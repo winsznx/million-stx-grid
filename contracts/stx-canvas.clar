@@ -1,5 +1,5 @@
-;; stx-canvas — Clarity 4 (epoch 3.3)
-;; 100×100 collaborative pixel canvas on Stacks Mainnet
+;; stx-canvas - Clarity 4 (epoch 3.3)
+;; 100x100 collaborative pixel canvas on Stacks Mainnet
 
 (define-constant GRID-SIZE u100)
 (define-constant ERR-OUT-OF-BOUNDS (err u100))
