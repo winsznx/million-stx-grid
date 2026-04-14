@@ -2,7 +2,7 @@
 
 import { showConnect } from "@stacks/connect";
 import { useState, useCallback } from "react";
-import { DESIGN } from "@/lib/constants";
+import { DESIGN, APP_URL } from "@/lib/constants";
 
 interface WalletConnectButtonProps {
   onConnect: (address: string) => void;
@@ -18,7 +18,7 @@ export function WalletConnectButton({ onConnect }: WalletConnectButtonProps) {
     showConnect({
       appDetails: {
         name: "The Million STX Grid",
-        icon: "/icon.png",
+        icon: `${APP_URL}/logo.svg`,
       },
       onFinish: (payload) => {
         const addr =
