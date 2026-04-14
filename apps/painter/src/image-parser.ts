@@ -8,6 +8,7 @@ export interface PixelInstruction {
 }
 
 const GRID_SIZE = 100;
+const CHANNELS_RGBA = 4;
 const MAX_DIMENSION = 32;
 
 export async function parseImageToPixels(
@@ -44,7 +45,7 @@ export async function parseImageToPixels(
 
   for (let y = 0; y < info.height; y++) {
     for (let x = 0; x < info.width; x++) {
-      const idx = (y * info.width + x) * 4;
+      const idx = (y * info.width + x) * CHANNELS_RGBA;
       const r = data[idx];
       const g = data[idx + 1];
       const b = data[idx + 2];
