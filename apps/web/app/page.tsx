@@ -17,6 +17,7 @@ import {
   DESIGN,
   COLOR_PALETTE,
   DEFAULT_ZOOM,
+  APP_URL,
 } from "@/lib/constants";
 import Link from "next/link";
 
@@ -61,7 +62,7 @@ export default function Home() {
     if (!walletAddress) {
       const { showConnect } = require("@stacks/connect");
       showConnect({
-        appDetails: { name: "The Million STX Grid", icon: "/icon.png" },
+        appDetails: { name: "The Million STX Grid", icon: `${APP_URL}/logo.svg` },
         onFinish: (payload: { authResponsePayload: { profile: { stxAddress: { mainnet: string } } } }) => {
           setWalletAddress(payload.authResponsePayload.profile.stxAddress.mainnet);
         },
