@@ -42,3 +42,7 @@
 (define-read-only (get-total-painted)
   (ok (var-get total-pixels-painted))
 )
+
+(define-read-only (get-painter-count (painter principal))
+  (ok (default-to u0 (map-get? painter-pixel-count painter)))
+)
