@@ -54,6 +54,7 @@ export function LiveTxFeed({ events }: LiveTxFeedProps) {
                 height: 16,
                 backgroundColor: event.color,
                 flexShrink: 0,
+                display: "inline-block",
                 border: "1px solid rgba(255,255,255,0.1)",
               }}
             />
