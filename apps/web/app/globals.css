@@ -117,3 +117,6 @@ img, svg {
 
 .font-display { font-family: 'JetBrains Mono', monospace; }
 .font-body { font-family: 'Syne', sans-serif; }
+
+.border-subtle { border: 1px solid rgba(255, 255, 255, 0.05); }
+.bg-card { background: rgba(255, 255, 255, 0.02); }
