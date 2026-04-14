@@ -56,7 +56,9 @@ export async function fetchAllPixelEvents(
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`Hiro API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Hiro API error fetching contract events: ${response.status} ${response.statusText} (offset: ${offset})`
+      );
     }
 
     const data: HiroEventsResponse = await response.json();
