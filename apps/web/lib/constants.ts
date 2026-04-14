@@ -10,6 +10,7 @@ export const PIXEL_SIZE = 6;
 export const DEVICE_PIXEL_RATIO_DEFAULT = 1;
 export const CANVAS_SIZE = GRID_SIZE * PIXEL_SIZE;
 export const DEFAULT_BG_COLOR = "#1a1a2e";
+export const HOVER_BORDER_WIDTH = 1;
 export const HIGHLIGHT_COLOR = "#00ff94";
 
 export const ZOOM_LEVELS = [1, 2, 4, 8] as const;
