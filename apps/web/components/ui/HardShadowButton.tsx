@@ -1,6 +1,7 @@
 "use client";
 
 import { ButtonHTMLAttributes } from "react";
+import { cn } from "@/lib/cn";
 import { DESIGN } from "@/lib/constants";
 
 interface HardShadowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -10,6 +11,7 @@ interface HardShadowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> 
 export function HardShadowButton({
   variant = "primary",
   style: styleProp,
+  className,
   children,
   disabled,
   ...props
@@ -19,6 +21,7 @@ export function HardShadowButton({
   return (
     <button
       disabled={disabled}
+      className={cn(className)}
       style={{
         padding: "10px 20px",
         border: `1px solid ${accentColor}`,
