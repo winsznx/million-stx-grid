@@ -1,15 +1,20 @@
 "use client";
 
+import { cn } from "@/lib/cn";
 import { DESIGN } from "@/lib/constants";
+import { Button } from "./Button";
 
 interface ErrorMessageProps {
   message: string;
   onRetry?: () => void;
+  className?: string;
 }
 
-export function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
+export function ErrorMessage({ message, onRetry, className }: ErrorMessageProps) {
   return (
     <div
+      className={cn(className)}
+      role="alert"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -23,20 +28,9 @@ export function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
     >
       <span>{message}</span>
       {onRetry && (
-        <button
-          onClick={onRetry}
-          style={{
-            padding: "8px 16px",
-            border: `1px solid ${DESIGN.danger}`,
-            background: "transparent",
-            color: DESIGN.danger,
-            fontFamily: DESIGN.fontDisplay,
-            fontSize: 12,
-            cursor: "pointer",
-          }}
-        >
+        <Button variant="danger" size="sm" onClick={onRetry}>
           Retry
-        </button>
+        </Button>
       )}
     </div>
   );
