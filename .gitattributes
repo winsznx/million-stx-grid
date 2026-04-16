@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.clar linguist-language=Clojure
+*.svg binary
+*.png binary
