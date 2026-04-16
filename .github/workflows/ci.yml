@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm turbo run build
+        env:
+          NEXT_PUBLIC_HIRO_API_BASE: https://api.hiro.so
+          NEXT_PUBLIC_CONTRACT_DEPLOYER: SP000000000000000000002Q6VF78
+          NEXT_PUBLIC_CONTRACT_NAME: stx-canvas
+          NEXT_PUBLIC_NETWORK: mainnet
+          NEXT_PUBLIC_APP_URL: https://stxcanvas.xyz
+          NEXT_PUBLIC_GRID_SIZE: 100
+          NEXT_PUBLIC_POLL_INTERVAL_MS: 15000
