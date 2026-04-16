@@ -1,14 +1,18 @@
 "use client";
 
+import { cn } from "@/lib/cn";
 import { DESIGN } from "@/lib/constants";
+import { Spinner } from "./Spinner";
 
 interface LoadingSpinnerProps {
   message?: string;
+  className?: string;
 }
 
-export function LoadingSpinner({ message = "Loading..." }: LoadingSpinnerProps) {
+export function LoadingSpinner({ message = "Loading...", className }: LoadingSpinnerProps) {
   return (
     <div
+      className={cn(className)}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -19,22 +23,8 @@ export function LoadingSpinner({ message = "Loading..." }: LoadingSpinnerProps) 
         fontSize: 16,
       }}
     >
-      <div
-        style={{
-          width: 24,
-          height: 24,
-          border: `2px solid ${DESIGN.textMuted}`,
-          borderTopColor: DESIGN.primaryNeon,
-          borderRadius: "50%",
-          animation: "spin 0.8s linear infinite",
-        }}
-      />
+      <Spinner size={24} />
       <span>{message}</span>
-      <style>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 }
