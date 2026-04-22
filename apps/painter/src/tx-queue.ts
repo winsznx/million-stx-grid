@@ -8,11 +8,26 @@ import {
 } from "@stacks/transactions";
 import { StacksMainnet } from "@stacks/network";
 import { PixelInstruction } from "./image-parser";
+import * as logger from "./logger";
 
+/**
+ * Utility to wait for a specified duration.
+ * @param ms - Milliseconds to wait.
+ */
 function waitMs(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/**
+ * Iterates through a queue of pixel instructions and broadcasts contract calls to paint them.
+ * 
+ * @param pixels - Array of PixelInstruction objects.
+ * @param privateKey - The private key to sign transactions.
+ * @param contractDeployer - The contract deployer address.
+ * @param contractName - The name of the contract.
+ * @param delayMs - The delay between transactions in milliseconds.
+ * @param dryRun - If true, only logs the intention without broadcasting.
+ */
 export async function broadcastPixelQueue(
   pixels: PixelInstruction[],
   privateKey: string,
@@ -30,7 +45,7 @@ export async function broadcastPixelQueue(
     const progress = `[${i + 1}/${total}]`;
 
     if (dryRun) {
-      console.log(
+      logger.info(
         `${progress} [DRY RUN] (${pixel.x}, ${pixel.y}) → ${pixel.color}`
       );
       continue;
@@ -57,18 +72,17 @@ export async function broadcastPixelQueue(
       const result = await broadcastTransaction(transaction, network);
 
       if ("error" in result) {
-        console.error(
+        logger.error(
           `${progress} Error painting (${pixel.x}, ${pixel.y}): ${result.error} - ${result.reason}`
         );
       } else {
-        console.log(
-          `${progress} Painting (${pixel.x}, ${pixel.y}) → ${pixel.color} | txid: ${result.txid}`
+        logger.info(
+          `${progress} Painted (${pixel.x}, ${pixel.y}) → ${pixel.color} | TXID: ${result.txid}`
         );
       }
     } catch (err) {
-      console.error(
-        `${progress} Failed to broadcast (${pixel.x}, ${pixel.y}):`,
-        err instanceof Error ? err.message : err
+      logger.error(
+        `${progress} Failed to broadcast (${pixel.x}, ${pixel.y}): ${err instanceof Error ? err.message : String(err)}`
       );
     }
 
@@ -79,5 +93,5 @@ export async function broadcastPixelQueue(
 
   const endTime = Date.now();
   const durationSec = Math.round((endTime - startTime) / 1000);
-  console.log(`\nDone. ${total} pixels processed in ${durationSec}s.`);
+  logger.info(`Processing complete. ${total} pixels processed in ${durationSec}s.`);
 }
