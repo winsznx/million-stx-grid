@@ -1,85 +1,70 @@
 import { parseImageToPixels } from "./image-parser";
 import { broadcastPixelQueue } from "./tx-queue";
+import { parseCliArgs } from "./args";
+import * as logger from "./logger";
+import { loadConfigFromEnv } from "./config";
 
-interface CliArgs {
-  image: string;
-  x: number;
-  y: number;
-  delay: number;
-  dryRun: boolean;
-}
-
-function parseArgs(): CliArgs {
-  const args = process.argv.slice(2);
-  const result: CliArgs = {
-    image: "",
-    x: 0,
-    y: 0,
-    delay: 500,
-    dryRun: false,
-  };
-
-  for (let i = 0; i < args.length; i++) {
-    switch (args[i]) {
-      case "--image":
-        result.image = args[++i];
-        break;
-      case "--x":
-        result.x = parseInt(args[++i], 10);
-        break;
-      case "--y":
-        result.y = parseInt(args[++i], 10);
-        break;
-      case "--delay":
-        result.delay = parseInt(args[++i], 10);
-        break;
-      case "--dry-run":
-        result.dryRun = true;
-        break;
-    }
-  }
-
-  if (!result.image) {
-    console.error("Usage: pnpm painter --image <path> [--x N] [--y N] [--delay ms] [--dry-run]");
+/**
+ * Main entry point for the STX Canvas Painter.
+ * Parses CLI arguments, loads environment configuration, and starts the painting process.
+ */
+async function main() {
+  let args;
+  try {
+    args = parseCliArgs(process.argv.slice(2));
+  } catch (err) {
+    console.error(`Error: ${err instanceof Error ? err.message : String(err)}`);
+    console.log("\nUsage: pnpm start --image <path> [--x N] [--y N] [--delay ms] [--dry-run]");
     process.exit(1);
   }
 
-  return result;
-}
-
-async function main() {
-  const args = parseArgs();
-  const contractDeployer = process.env.PAINTER_CONTRACT_DEPLOYER;
-  const contractName = process.env.PAINTER_CONTRACT_NAME ?? "stx-canvas";
-  const privateKey = process.env.PAINTER_PRIVATE_KEY;
+  const envConfig = loadConfigFromEnv();
+  const contractDeployer = envConfig.contractDeployer;
+  const contractName = envConfig.contractName ?? "stx-canvas";
+  const privateKey = envConfig.privateKey;
 
   if (!args.dryRun && (!contractDeployer || !privateKey)) {
-    console.error(
-      "PAINTER_CONTRACT_DEPLOYER and PAINTER_PRIVATE_KEY must be set for live mode"
+    logger.error(
+      "PAINTER_CONTRACT_DEPLOYER and PAINTER_PRIVATE_KEY must be set in environment for LIVE mode."
     );
     process.exit(1);
   }
 
-  console.log(`Parsing image: ${args.image}`);
-  console.log(`Offset: (${args.x}, ${args.y})`);
-  console.log(`Delay: ${args.delay}ms`);
-  console.log(`Mode: ${args.dryRun ? "DRY RUN" : "LIVE"}\n`);
+  logger.info(`Starting painter...`);
+  logger.info(`Image: ${args.image}`);
+  logger.info(`Offset: (${args.x}, ${args.y})`);
+  logger.info(`Delay: ${args.delay}ms`);
+  logger.info(`Mode: ${args.dryRun ? "DRY RUN" : "LIVE"}`);
 
-  const pixels = await parseImageToPixels(args.image, args.x, args.y);
-  console.log(`Found ${pixels.length} paintable pixels`);
-  console.log(`Estimated time: ${Math.ceil((pixels.length * args.delay) / 1000)}s\n`);
+  let pixels;
+  try {
+    pixels = await parseImageToPixels(args.image, args.x, args.y);
+  } catch (err) {
+    logger.error(`Failed to parse image: ${err instanceof Error ? err.message : String(err)}`);
+    process.exit(1);
+  }
 
-  await broadcastPixelQueue(
-    pixels,
-    privateKey ?? "",
-    contractDeployer ?? "",
-    contractName,
-    args.delay,
-    args.dryRun
-  );
+  logger.info(`Found ${pixels.length} paintable pixels.`);
+  
+  const estimatedSeconds = Math.ceil((pixels.length * args.delay) / 1000);
+  logger.info(`Estimated total time: ${estimatedSeconds}s\n`);
+
+  try {
+    await broadcastPixelQueue(
+      pixels,
+      privateKey ?? "",
+      contractDeployer ?? "",
+      contractName,
+      args.delay,
+      args.dryRun
+    );
+  } catch (err) {
+    logger.error(`Fatal error during broadcast: ${err instanceof Error ? err.message : String(err)}`);
+    process.exit(1);
+  }
 }
 
 main().catch((err) => {
-  console.error("Fatal error:", err);
+  logger.error(`Unhandled fatal error: ${err instanceof Error ? err.message : String(err)}`);
   process.exit(1);
 });
