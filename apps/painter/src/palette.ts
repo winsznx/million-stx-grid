@@ -1,3 +1,8 @@
+/**
+ * The default color palette for the STX Canvas.
+ * This should match the palette used by the smart contract and the web frontend.
+ * Total colors: 32.
+ */
 export const DEFAULT_PALETTE: string[] = [
   "#FFFFFF", "#E4E4E4", "#888888", "#222222",
   "#FFA7D1", "#E50000", "#E59500", "#A06A42",
