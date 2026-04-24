@@ -1,26 +1,24 @@
 "use client";
 
-import { HTMLAttributes, ReactNode, forwardRef } from "react";
+import { HTMLAttributes, forwardRef } from "react";
 import { cn } from "@/lib/cn";
+import { DESIGN } from "@/lib/constants";
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  children: ReactNode;
-  padding?: number;
-}
-
-export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-  { className, style, children, padding = 20, ...props },
+/**
+ * A neon-bordered card component for UI grouping.
+ */
+export const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(function Card(
+  { className, children, ...props },
   ref
 ) {
   return (
     <div
       ref={ref}
-      className={cn(className)}
+      className={cn("p-4", className)}
       style={{
-        padding,
-        border: "1px solid rgba(255,255,255,0.05)",
-        background: "rgba(255,255,255,0.02)",
-        ...style,
+        background: DESIGN.canvasBg,
+        border: `1px solid ${DESIGN.textMuted}`,
+        boxShadow: `4px 4px 0px ${DESIGN.textMuted}`,
       }}
       {...props}
     >
