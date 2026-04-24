@@ -1,27 +1,30 @@
+"use client";
+
 import { useState, useCallback } from "react";
 
-interface PendingPixel {
-  x: number;
-  y: number;
-  color: string;
-}
-
+/**
+ * Hook for managing locally pending pixels that haven't been confirmed on-chain yet.
+ */
 export function usePendingPixels() {
-  const [pendingPixels, setPendingPixels] = useState<PendingPixel[]>([]);
+  const [pending, setPending] = useState<Map<string, string>>(new Map());
 
-  const addPending = useCallback((pixel: PendingPixel) => {
-    setPendingPixels((prev) => [...prev, pixel]);
+  const addPending = useCallback((x: number, y: number, color: string) => {
+    setPending((prev) => {
+      const next = new Map(prev);
+      next.set(`${x},${y}`, color);
+      return next;
+    });
   }, []);
+
+  const clearPending = useCallback(() => setPending(new Map()), []);
 
   const removePending = useCallback((x: number, y: number) => {
-    setPendingPixels((prev) =>
-      prev.filter((p) => p.x !== x || p.y !== y)
-    );
+    setPending((prev) => {
+      const next = new Map(prev);
+      next.delete(`${x},${y}`);
+      return next;
+    });
   }, []);
 
-  const clearAll = useCallback(() => {
-    setPendingPixels([]);
-  }, []);
-
-  return { pendingPixels, addPending, removePending, clearAll };
+  return { pending, addPending, clearPending, removePending };
 }
