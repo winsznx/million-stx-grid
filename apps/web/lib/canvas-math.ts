@@ -1,28 +1,25 @@
-import { PIXEL_SIZE, GRID_SIZE, CANVAS_SIZE } from "./constants";
+import { GRID_SIZE, PIXEL_SIZE } from "./constants";
 
-export function canvasToGrid(canvasX: number, canvasY: number): { x: number; y: number } | null {
-  const x = Math.floor(canvasX / PIXEL_SIZE);
-  const y = Math.floor(canvasY / PIXEL_SIZE);
-  if (x < 0 || x >= GRID_SIZE || y < 0 || y >= GRID_SIZE) return null;
-  return { x, y };
-}
-
-export function gridToCanvas(gridX: number, gridY: number): { x: number; y: number } {
+/**
+ * Calculates grid coordinates from absolute canvas coordinates.
+ */
+export function canvasToGrid(x: number, y: number): { x: number; y: number } {
   return {
-    x: gridX * PIXEL_SIZE,
-    y: gridY * PIXEL_SIZE,
+    x: Math.floor(x / PIXEL_SIZE),
+    y: Math.floor(y / PIXEL_SIZE),
   };
 }
 
-export function clientToCanvas(
-  clientX: number,
-  clientY: number,
-  rect: DOMRect
-): { x: number; y: number } {
-  const scaleX = CANVAS_SIZE / rect.width;
-  const scaleY = CANVAS_SIZE / rect.height;
-  return {
-    x: (clientX - rect.left) * scaleX,
-    y: (clientY - rect.top) * scaleY,
-  };
+/**
+ * Validates if coordinates are within the grid bounds.
+ */
+export function isWithinBounds(x: number, y: number): boolean {
+  return x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE;
+}
+
+/**
+ * Clamps a coordinate value to grid boundaries.
+ */
+export function clampCoord(val: number): number {
+  return Math.max(0, Math.min(GRID_SIZE - 1, val));
 }
