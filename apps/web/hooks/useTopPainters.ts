@@ -1,31 +1,17 @@
-import { useMemo } from "react";
-import type { PixelEvent } from "@winsznx/stx-canvas-client";
+"use client";
 
-export interface PainterRank {
-  address: string;
-  count: number;
-}
+import { useState, useEffect } from "react";
 
-export function useTopPainters(
-  events: PixelEvent[],
-  limit: number = 20
-): PainterRank[] {
-  return useMemo(() => {
-    const counts = new Map<string, number>();
+/**
+ * Hook for fetching and managing top painters leaderboard.
+ */
+export function useTopPainters() {
+  const [painters, setPainters] = useState<{ address: string; count: number }[]>([]);
+  const [loading, setLoading] = useState(true);
 
-    for (const event of events) {
-      counts.set(event.painter, (counts.get(event.painter) ?? 0) + 1);
-    }
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
-    return Array.from(counts.entries())
-      .map(([address, count]) => ({ address, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, limit);
-  }, [events, limit]);
-}
-
-export function useUniquePainterCount(events: PixelEvent[]): number {
-  return useMemo(() => {
-    return new Set(events.map((e) => e.painter)).size;
-  }, [events]);
+  return { painters, loading };
 }
