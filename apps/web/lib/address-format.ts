@@ -1,17 +1,17 @@
-import { TRUNCATE_START, TRUNCATE_END } from "./constants";
-
-export function shortAddress(address: string): string {
-  if (!address) return "";
-  if (address.length <= TRUNCATE_START + TRUNCATE_END + 1) return address;
-  return `${address.slice(0, TRUNCATE_START)}…${address.slice(-TRUNCATE_END)}`;
+/**
+ * Formats a Stacks address by truncating the middle part.
+ * Useful for UI elements where space is limited.
+ */
+export function formatAddress(address: string): string {
+  if (!address) return "Unknown";
+  if (address.length < 10) return address;
+  return `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
 }
 
-export function mediumAddress(address: string): string {
-  if (!address) return "";
-  if (address.length <= 13) return address;
-  return `${address.slice(0, 8)}…${address.slice(-4)}`;
-}
-
-export function fullAddress(address: string): string {
-  return address.trim().toUpperCase();
+/**
+ * Returns a human-readable label for a principal if available.
+ */
+export function getPrincipalLabel(principal: string): string {
+  if (principal.includes(".")) return principal.split(".")[1];
+  return formatAddress(principal);
 }
