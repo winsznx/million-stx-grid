@@ -1,33 +1,26 @@
 "use client";
 
-import { HTMLAttributes, ReactNode } from "react";
+import { HTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 import { DESIGN } from "@/lib/constants";
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
-  children: ReactNode;
-  tone?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "danger";
 }
 
-export function Badge({ children, tone = "primary", className, style, ...props }: BadgeProps) {
-  const color =
-    tone === "danger"
-      ? DESIGN.danger
-      : tone === "secondary"
-        ? DESIGN.secondaryNeon
-        : DESIGN.primaryNeon;
-
+/**
+ * A small status badge with neon aesthetics.
+ */
+export function Badge({ variant = "primary", className, children, ...props }: BadgeProps) {
+  const accent = variant === "secondary" ? DESIGN.secondaryNeon : variant === "danger" ? DESIGN.danger : DESIGN.primaryNeon;
+  
   return (
     <span
-      className={cn(className)}
+      className={cn("px-2 py-0.5 text-xs font-bold uppercase tracking-wider", className)}
       style={{
-        display: "inline-block",
-        padding: "2px 8px",
-        border: `1px solid ${color}`,
-        color,
-        fontFamily: DESIGN.fontDisplay,
-        fontSize: 11,
-        ...style,
+        border: `1px solid ${accent}`,
+        color: accent,
+        backgroundColor: `${accent}22`,
       }}
       {...props}
     >
