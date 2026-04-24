@@ -1,6 +1,11 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 
-export function useInterval(callback: () => void, delayMs: number | null) {
+/**
+ * Hook for declarative setInterval.
+ */
+export function useInterval(callback: () => void, delay: number | null) {
   const savedCallback = useRef(callback);
 
   useEffect(() => {
@@ -8,8 +13,9 @@ export function useInterval(callback: () => void, delayMs: number | null) {
   }, [callback]);
 
   useEffect(() => {
-    if (delayMs === null) return;
-    const id = setInterval(() => savedCallback.current(), delayMs);
-    return () => clearInterval(id);
-  }, [delayMs]);
+    if (delay !== null) {
+      const id = setInterval(() => savedCallback.current(), delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
 }
