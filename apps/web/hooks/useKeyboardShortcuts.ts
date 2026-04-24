@@ -1,19 +1,18 @@
+"use client";
+
 import { useEffect } from "react";
 
-interface ShortcutMap {
-  [key: string]: () => void;
-}
-
-export function useKeyboardShortcuts(shortcuts: ShortcutMap) {
+/**
+ * Hook for registering global keyboard shortcuts.
+ */
+export function useKeyboardShortcuts(shortcuts: Record<string, () => void>) {
   useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      const handler = shortcuts[e.key];
-      if (handler) {
-        e.preventDefault();
-        handler();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase();
+      if (shortcuts[key]) {
+        shortcuts[key]();
       }
-    }
+    };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
