@@ -1,30 +1,20 @@
 "use client";
 
 import { DESIGN } from "@/lib/constants";
-import { cn } from "@/lib/cn";
 
-interface SpinnerProps {
-  size?: number;
-  className?: string;
-}
-
-export function Spinner({ size = 16, className }: SpinnerProps) {
+/**
+ * CSS-based neon spinner for loading states.
+ */
+export function Spinner({ size = 20 }: { size?: number }) {
   return (
-    <span
-      role="status"
-      aria-label="Loading"
-      className={cn(className)}
+    <div
+      className="inline-block animate-spin rounded-full border-2 border-t-transparent"
       style={{
-        display: "inline-block",
         width: size,
         height: size,
-        border: `2px solid ${DESIGN.textMuted}`,
+        borderColor: `${DESIGN.primaryNeon}22`,
         borderTopColor: DESIGN.primaryNeon,
-        borderRadius: "50%",
-        animation: "stxSpin 0.8s linear infinite",
       }}
-    >
-      <style>{`@keyframes stxSpin { to { transform: rotate(360deg); } }`}</style>
-    </span>
+    />
   );
 }
