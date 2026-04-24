@@ -1,62 +1,36 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { cn } from "@/lib/cn";
 import { DESIGN } from "@/lib/constants";
 
-interface Tab {
-  id: string;
-  label: string;
-  content: ReactNode;
-}
-
 interface TabsProps {
-  tabs: Tab[];
-  activeId: string;
-  onChange: (id: string) => void;
-  className?: string;
+  tabs: { id: string; label: string; content: ReactNode }[];
 }
 
-export function Tabs({ tabs, activeId, onChange, className }: TabsProps) {
-  const active = tabs.find((t) => t.id === activeId) ?? tabs[0];
+/**
+ * Tabbed navigation component with neon active state.
+ */
+export function Tabs({ tabs }: TabsProps) {
+  const [active, setActive] = useState(tabs[0]?.id);
 
   return (
-    <div className={cn(className)}>
-      <div
-        role="tablist"
-        style={{
-          display: "flex",
-          gap: 4,
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
-        }}
-      >
-        {tabs.map((tab) => {
-          const isActive = tab.id === active?.id;
-          return (
-            <button
-              key={tab.id}
-              role="tab"
-              aria-selected={isActive}
-              onClick={() => onChange(tab.id)}
-              style={{
-                padding: "8px 16px",
-                background: "transparent",
-                border: "none",
-                borderBottom: `2px solid ${isActive ? DESIGN.primaryNeon : "transparent"}`,
-                color: isActive ? DESIGN.primaryNeon : DESIGN.textMuted,
-                fontFamily: DESIGN.fontDisplay,
-                fontSize: 13,
-                cursor: "pointer",
-              }}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
+    <div>
+      <div className="flex border-b border-muted mb-4">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActive(tab.id)}
+            className={cn(
+              "px-4 py-2 text-sm font-bold transition-colors border-b-2 -mb-[2px]",
+              active === tab.id ? "border-primary-neon text-primary-neon" : "border-transparent text-muted"
+            )}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
-      <div role="tabpanel" style={{ paddingTop: 16 }}>
-        {active?.content}
-      </div>
+      <div>{tabs.find((t) => t.id === active)?.content}</div>
     </div>
   );
 }
