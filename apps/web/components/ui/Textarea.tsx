@@ -4,29 +4,25 @@ import { TextareaHTMLAttributes, forwardRef } from "react";
 import { cn } from "@/lib/cn";
 import { DESIGN } from "@/lib/constants";
 
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  invalid?: boolean;
-}
-
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  { className, style, invalid, ...props },
+/**
+ * Neon-styled Textarea with consistent typography.
+ */
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<HTMLTextAreaElement>>(function Textarea(
+  { className, ...props },
   ref
 ) {
   return (
     <textarea
       ref={ref}
-      className={cn(className)}
+      className={cn(
+        "w-full bg-transparent p-2 outline-none border transition-colors focus:border-primary-neon resize-none",
+        className
+      )}
       style={{
-        padding: "8px 12px",
-        border: `1px solid ${invalid ? DESIGN.danger : "rgba(255,255,255,0.15)"}`,
-        background: "rgba(255,255,255,0.02)",
+        border: `1px solid ${DESIGN.textMuted}`,
         color: DESIGN.textPrimary,
-        fontFamily: DESIGN.fontDisplay,
-        fontSize: 13,
-        outline: "none",
-        resize: "vertical",
+        fontFamily: DESIGN.fontBody,
         minHeight: 80,
-        ...style,
       }}
       {...props}
     />
