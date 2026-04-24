@@ -1,20 +1,18 @@
+"use client";
+
 import { useState, useCallback } from "react";
 
-interface Coord {
-  x: number;
-  y: number;
-}
-
+/**
+ * Hook for tracking the currently selected coordinate on the grid.
+ */
 export function useSelectedCoord() {
-  const [selectedCoord, setSelectedCoord] = useState<Coord | null>(null);
+  const [coord, setCoord] = useState<{ x: number; y: number } | null>(null);
 
-  const selectCoord = useCallback((x: number, y: number) => {
-    setSelectedCoord({ x, y });
+  const select = useCallback((x: number, y: number) => {
+    setCoord({ x, y });
   }, []);
 
-  const clearSelection = useCallback(() => {
-    setSelectedCoord(null);
-  }, []);
+  const clear = useCallback(() => setCoord(null), []);
 
-  return { selectedCoord, selectCoord, clearSelection };
+  return { coord, select, clear };
 }
