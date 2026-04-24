@@ -13,17 +13,17 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const accentFor = (variant: ButtonVariant): string => {
-  if (variant === "secondary") return DESIGN.secondaryNeon;
-  if (variant === "danger") return DESIGN.danger;
-  return DESIGN.primaryNeon;
+  switch (variant) {
+    case "secondary": return DESIGN.secondaryNeon;
+    case "danger": return DESIGN.danger;
+    case "ghost": return "transparent";
+    default: return DESIGN.primaryNeon;
+  }
 };
 
-const paddingFor = (size: ButtonSize): string => {
-  if (size === "sm") return "6px 12px";
-  if (size === "lg") return "14px 28px";
-  return "10px 20px";
-};
-
+/**
+ * A reusable button component with custom neon styling.
+ */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { variant = "primary", size = "md", className, style, disabled, children, ...props },
   ref
@@ -34,18 +34,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   return (
     <button
       ref={ref}
-      className={cn(className)}
+      className={cn(
+        "transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed",
+        className
+      )}
       disabled={disabled}
       style={{
-        padding: paddingFor(size),
-        border: `1px solid ${accent}`,
+        padding: size === "sm" ? "6px 12px" : size === "lg" ? "14px 28px" : "10px 20px",
+        border: `1px solid ${isGhost ? DESIGN.textMuted : accent}`,
         boxShadow: disabled || isGhost ? "none" : `4px 4px 0px ${accent}`,
         background: "transparent",
-        color: disabled ? DESIGN.textMuted : accent,
+        color: disabled ? DESIGN.textMuted : isGhost ? DESIGN.textPrimary : accent,
         fontFamily: DESIGN.fontDisplay,
         fontSize: size === "sm" ? 12 : size === "lg" ? 16 : 14,
-        cursor: disabled ? "not-allowed" : "pointer",
-        transition: "transform 0.1s, box-shadow 0.1s",
+        cursor: "pointer",
         ...style,
       }}
       {...props}
