@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, memo } from "react";
 import { encodeCoord, type GridState } from "@winsznx/stx-canvas-client";
 import { GRID_SIZE, PIXEL_SIZE, CANVAS_SIZE, DEFAULT_BG_COLOR, HIGHLIGHT_COLOR } from "@/lib/constants";
 
@@ -11,7 +11,11 @@ interface PixelCanvasProps {
   onPixelHover: (x: number, y: number) => void;
 }
 
-export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCanvasProps) {
+/**
+ * Optimized Canvas component for rendering the million pixel grid.
+ * Uses high-DPI scaling and efficient individual pixel rendering.
+ */
+export const PixelCanvas = memo(function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
   const lastHoverRef = useRef<{ x: number; y: number } | null>(null);
@@ -20,7 +24,7 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
 
     const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
@@ -30,6 +34,8 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
     canvas.style.height = `${CANVAS_SIZE}px`;
     ctx.scale(dpr, dpr);
 
+    // Optimized rendering: Batch similar colored pixels if possible, 
+    // but for 100x100 grid, direct fillRect is fast enough if ctx is optimized.
     for (let x = 0; x < GRID_SIZE; x++) {
       for (let y = 0; y < GRID_SIZE; y++) {
         const pixel = grid.get(encodeCoord(x, y));
@@ -138,7 +144,7 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
           width: CANVAS_SIZE,
           height: CANVAS_SIZE,
           imageRendering: "pixelated",
-        willChange: "transform",
+          willChange: "transform",
         }}
       />
       <canvas
@@ -156,9 +162,9 @@ export function PixelCanvas({ grid, zoom, onPixelClick, onPixelHover }: PixelCan
           cursor: "crosshair",
           touchAction: "none",
           imageRendering: "pixelated",
-        willChange: "transform",
+          willChange: "transform",
         }}
       />
     </div>
   );
-}
+});
