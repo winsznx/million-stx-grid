@@ -1,41 +1,29 @@
 "use client";
 
-import { DESIGN } from "@/lib/constants";
+import { Card } from "../ui/Card";
+import { ReactNode } from "react";
 
 interface StatCardProps {
-  value: string | number;
   label: string;
-  color?: string;
+  value: string | number;
+  icon?: ReactNode;
+  trend?: string;
 }
 
-export function StatCard({ value, label, color = DESIGN.primaryNeon }: StatCardProps) {
+/**
+ * Reusable card for displaying individual grid statistics.
+ */
+export function StatCard({ label, value, icon, trend }: StatCardProps) {
   return (
-    <div
-      style={{
-        padding: "20px",
-        border: "1px solid rgba(255,255,255,0.05)",
-        background: "rgba(255,255,255,0.02)",
-      }}
-    >
-      <div
-        style={{
-          fontFamily: DESIGN.fontDisplay,
-          fontSize: 32,
-          color,
-        }}
-      >
-        {typeof value === "number" ? value.toLocaleString() : value}
+    <Card className="p-4 flex flex-col justify-center space-y-1">
+      <div className="flex justify-between items-start">
+        <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{label}</span>
+        {icon && <div className="text-white/20">{icon}</div>}
       </div>
-      <div
-        style={{
-          fontFamily: DESIGN.fontBody,
-          fontSize: 14,
-          color: DESIGN.textMuted,
-          marginTop: 4,
-        }}
-      >
-        {label}
+      <div className="flex items-baseline gap-2">
+        <span className="text-2xl font-mono font-bold">{value}</span>
+        {trend && <span className="text-[10px] text-primary-neon font-bold">{trend}</span>}
       </div>
-    </div>
+    </Card>
   );
 }
