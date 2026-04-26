@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, forwardRef } from "react";
 import { CANVAS_SIZE } from "@/lib/constants";
 
 interface CanvasContainerProps {
@@ -8,17 +8,26 @@ interface CanvasContainerProps {
   children: ReactNode;
 }
 
-export function CanvasContainer({ zoom, children }: CanvasContainerProps) {
-  return (
-    <div
-      style={{
-        position: "relative",
-        overflow: "hidden",
-        width: CANVAS_SIZE * zoom,
-        height: CANVAS_SIZE * zoom,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
+/**
+ * Responsive container for the canvas, handling overflow and high-level zoom scaling.
+ */
+export const CanvasContainer = forwardRef<HTMLDivElement, CanvasContainerProps>(
+  function CanvasContainer({ zoom, children }, ref) {
+    return (
+      <div
+        ref={ref}
+        style={{
+          position: "relative",
+          overflow: "hidden",
+          width: CANVAS_SIZE * zoom,
+          height: CANVAS_SIZE * zoom,
+          transition: "width 0.2s ease, height 0.2s ease",
+          borderRadius: "8px",
+          border: "2px solid rgba(255, 255, 255, 0.1)",
+        }}
+      >
+        {children}
+      </div>
+    );
+  }
+);
