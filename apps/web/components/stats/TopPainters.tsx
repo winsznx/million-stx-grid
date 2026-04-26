@@ -1,71 +1,29 @@
 "use client";
 
-import { DESIGN } from "@/lib/constants";
-import type { PainterRank } from "@/hooks/useTopPainters";
+import { useTopPainters } from "@/hooks/useTopPainters";
+import { truncateAddress } from "@/lib/stacks-utils";
+import { Spinner } from "../ui/Spinner";
 
-interface TopPaintersProps {
-  painters: PainterRank[];
-}
+/**
+ * Leaderboard component showing most active addresses on the grid.
+ */
+export function TopPainters() {
+  const { painters, loading } = useTopPainters();
 
-export function TopPainters({ painters }: TopPaintersProps) {
-  const truncate = (addr: string): string =>
-    addr.length > 12 ? `${addr.slice(0, 8)}…${addr.slice(-4)}` : addr;
+  if (loading) return <div className="flex justify-center p-8"><Spinner /></div>;
 
   return (
-    <div>
-      <h2
-        style={{
-          fontFamily: DESIGN.fontDisplay,
-          color: DESIGN.primaryNeon,
-          fontSize: 20,
-          marginBottom: 16,
-        }}
-      >
-        Top Painters
-      </h2>
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          fontFamily: DESIGN.fontDisplay,
-          fontSize: 13,
-        }}
-      >
-        <thead>
-          <tr style={{ color: DESIGN.textMuted, textAlign: "left" }}>
-            <th style={{ padding: "8px 12px" }}>#</th>
-            <th style={{ padding: "8px 12px" }}>Address</th>
-            <th style={{ padding: "8px 12px", textAlign: "right" }}>Pixels</th>
-          </tr>
-        </thead>
-        <tbody>
-          {painters.map((painter, idx) => (
-            <tr
-              key={painter.address}
-              style={{
-                color: DESIGN.textPrimary,
-                borderTop: `1px solid rgba(255,255,255,0.05)`,
-              }}
-            >
-              <td style={{ padding: "8px 12px", color: DESIGN.textMuted }}>
-                {idx + 1}
-              </td>
-              <td style={{ padding: "8px 12px" }}>
-                {truncate(painter.address)}
-              </td>
-              <td
-                style={{
-                  padding: "8px 12px",
-                  textAlign: "right",
-                  color: DESIGN.primaryNeon,
-                }}
-              >
-                {painter.count}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="space-y-2">
+      <h3 className="text-sm font-bold opacity-50 mb-4">TOP PAINTERS</h3>
+      {painters.map((painter, i) => (
+        <div key={painter.address} className="flex items-center justify-between p-2 bg-white/5 rounded-lg">
+          <div className="flex items-center gap-3">
+            <span className="text-xs opacity-30 w-4 font-mono">{i + 1}</span>
+            <span className="font-mono text-sm">{truncateAddress(painter.address)}</span>
+          </div>
+          <span className="text-xs font-bold text-primary-neon">{painter.count} PX</span>
+        </div>
+      ))}
     </div>
   );
 }
