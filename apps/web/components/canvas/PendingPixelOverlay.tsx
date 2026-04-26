@@ -1,54 +1,34 @@
 "use client";
 
-import { PIXEL_SIZE, DESIGN } from "@/lib/constants";
-
-interface PendingPixel {
-  x: number;
-  y: number;
-  color: string;
-}
+import { PIXEL_SIZE } from "@/lib/constants";
 
 interface PendingPixelOverlayProps {
-  pixels: PendingPixel[];
-  zoom: number;
+  pending: Map<string, string>;
 }
 
-export function PendingPixelOverlay({ pixels, zoom }: PendingPixelOverlayProps) {
-  if (pixels.length === 0) return null;
-
+/**
+ * Renders pixels that have been broadcasted but not yet confirmed on-chain.
+ */
+export function PendingPixelOverlay({ pending }: PendingPixelOverlayProps) {
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        pointerEvents: "none",
-        transformOrigin: "top left",
-        transform: `scale(${zoom})`,
-      }}
-    >
-      {pixels.map((pixel) => (
-        <div
-          key={`${pixel.x},${pixel.y}`}
-          style={{
-            position: "absolute",
-            left: pixel.x * PIXEL_SIZE,
-            top: pixel.y * PIXEL_SIZE,
-            width: PIXEL_SIZE,
-            height: PIXEL_SIZE,
-            backgroundColor: pixel.color,
-            opacity: 0.5,
-            border: `1px dashed ${DESIGN.primaryNeon}`,
-            animation: "pendingPulse 1.5s ease-in-out infinite",
-          }}
-        />
-      ))}
-      <style>{`
-        @keyframes pendingPulse {
-          0%, 100% { opacity: 0.5; }
-          50% { opacity: 0.8; }
-        }
-      `}</style>
+    <div className="absolute inset-0 pointer-events-none">
+      {Array.from(pending.entries()).map(([key, color]) => {
+        const [x, y] = key.split(",").map(Number);
+        return (
+          <div
+            key={key}
+            className="absolute animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+            style={{
+              left: x * PIXEL_SIZE,
+              top: y * PIXEL_SIZE,
+              width: PIXEL_SIZE,
+              height: PIXEL_SIZE,
+              backgroundColor: color,
+              zIndex: 10,
+            }}
+          />
+        );
+      })}
     </div>
   );
 }
