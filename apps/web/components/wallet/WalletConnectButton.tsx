@@ -1,18 +1,32 @@
 "use client";
 
-import { useWallet } from "./WalletProvider";
+import { connect, getLocalStorage } from "@stacks/connect";
 import { Button } from "../ui/Button";
 import { truncateAddress } from "@/lib/stacks-utils";
+import { useState } from "react";
+
+interface WalletConnectButtonProps {
+  onConnect?: (address: string) => void;
+}
 
 /**
  * Standardized wallet connection button with status tracking.
  */
-export function WalletConnectButton() {
-  const { address, setAddress } = useWallet();
+export function WalletConnectButton({ onConnect }: WalletConnectButtonProps) {
+  const [address, setAddress] = useState<string | null>(null);
 
-  const handleConnect = () => {
-    // Mock connection for now
-    setAddress("SP2J7W7S227S0N0V2S6S7G0H2V6S7G0H2V6S7G0H");
+  const handleConnect = async () => {
+    try {
+      await connect();
+      const data = getLocalStorage();
+      const stxAddress = data?.addresses?.stx?.[0]?.address;
+      if (stxAddress) {
+        setAddress(stxAddress);
+        onConnect?.(stxAddress);
+      }
+    } catch {
+      // user cancelled
+    }
   };
 
   const handleDisconnect = () => {
