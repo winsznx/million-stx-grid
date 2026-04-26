@@ -2,7 +2,17 @@
 
 import { useGridStats } from "@/hooks/useGridStats";
 import { truncateAddress } from "@/lib/stacks-utils";
-import { formatDistanceToNow } from "date-fns";
+
+/** Lightweight relative-time formatter (no external dependency). */
+function timeAgo(date: Date): string {
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (seconds < 60) return `${seconds}s`;
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h`;
+  return `${Math.floor(hours / 24)}d`;
+}
 
 /**
  * Real-time feed of recent paint transactions.
@@ -18,7 +28,7 @@ export function LiveTxFeed() {
           <div key={tx.txid} className="text-[11px] bg-black/20 p-2 rounded border border-white/5 space-y-1">
             <div className="flex justify-between">
               <span className="font-bold text-primary-neon">{truncateAddress(tx.sender)}</span>
-              <span className="opacity-30">{formatDistanceToNow(new Date(tx.timestamp))} ago</span>
+              <span className="opacity-30">{timeAgo(new Date(tx.timestamp))} ago</span>
             </div>
             <div className="opacity-60">
               Painted pixel <span className="font-mono">(${tx.x}, ${tx.y})</span> with color 
