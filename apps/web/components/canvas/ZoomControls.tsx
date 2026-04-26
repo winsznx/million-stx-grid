@@ -4,14 +4,14 @@ import { ZOOM_LEVELS } from "@/lib/constants";
 import { Button } from "../ui/Button";
 
 interface ZoomControlsProps {
-  currentZoom: number;
+  zoom: number;
   onZoomChange: (zoom: number) => void;
 }
 
 /**
  * UI controls for adjusting the canvas zoom level.
  */
-export function ZoomControls({ currentZoom, onZoomChange }: ZoomControlsProps) {
+export function ZoomControls({ zoom: currentZoom, onZoomChange }: ZoomControlsProps) {
   return (
     <div className="flex items-center gap-2 bg-black/40 p-2 rounded-lg border border-white/5">
       {ZOOM_LEVELS.map((zoom) => (
