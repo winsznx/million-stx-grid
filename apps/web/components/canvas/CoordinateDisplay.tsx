@@ -1,29 +1,17 @@
 "use client";
 
-import { DESIGN } from "@/lib/constants";
-
 interface CoordinateDisplayProps {
   x: number | null;
   y: number | null;
-  painter: string | null;
 }
 
-export function CoordinateDisplay({ x, y, painter }: CoordinateDisplayProps) {
-  const truncateAddress = (addr: string) =>
-    `${addr.slice(0, 5)}…${addr.slice(-3)}`;
-
+/**
+ * Displays the current mouse coordinates on the grid.
+ */
+export function CoordinateDisplay({ x, y }: CoordinateDisplayProps) {
   return (
-    <div style={{ fontFamily: DESIGN.fontDisplay, fontSize: 14,
-        letterSpacing: "0.05em" }}>
-      <span style={{ color: DESIGN.textPrimary }}>
-        X: {x ?? "—"}  Y: {y ?? "—"}
-      </span>
-      {painter && (
-        <div style={{ color: DESIGN.textMuted, fontSize: 12, marginTop: 2,
-          letterSpacing: "0.02em" }}>
-          Last painted by: {truncateAddress(painter)}
-        </div>
-      )}
+    <div className="font-mono text-xs text-white/60 bg-black/40 px-3 py-1 rounded-full border border-white/5">
+      COORD: {x !== null && y !== null ? `(${x}, ${y})` : "---"}
     </div>
   );
 }
