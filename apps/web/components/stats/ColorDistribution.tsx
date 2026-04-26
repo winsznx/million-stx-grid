@@ -1,36 +1,33 @@
 "use client";
 
-import { DESIGN } from "@/lib/constants";
+import { useGridStats } from "@/hooks/useGridStats";
 
-interface ColorCount {
-  color: string;
-  count: number;
-}
-
-interface ColorDistributionProps {
-  colors: ColorCount[];
-  limit?: number;
-}
-
-export function ColorDistribution({ colors, limit = 10 }: ColorDistributionProps) {
-  const topColors = colors.slice(0, limit);
-  const maxCount = topColors.length > 0 ? topColors[0].count : 1;
+/**
+ * Visual representation of color usage across the grid.
+ */
+export function ColorDistribution() {
+  const { colorFrequency } = useGridStats();
 
   return (
-    <div>
-      <h3 style={{ fontFamily: DESIGN.fontDisplay, color: DESIGN.textPrimary, fontSize: 16, marginBottom: 12 }}>
-        Top Colors
-      </h3>
-      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-        {topColors.map(({ color, count }) => (
-          <div key={color} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ width: 16, height: 16, backgroundColor: color, border: "1px solid rgba(255,255,255,0.1)", flexShrink: 0 }} />
-            <div style={{ flex: 1, height: 6, background: "rgba(255,255,255,0.05)", overflow: "hidden" }}>
-              <div style={{ height: "100%", width: `${(count / maxCount) * 100}%`, backgroundColor: color, opacity: 0.7 }} />
+    <div className="space-y-4">
+      <h3 className="text-sm font-bold opacity-50">COLOR DISTRIBUTION</h3>
+      <div className="flex h-2 w-full rounded-full overflow-hidden">
+        {colorFrequency.slice(0, 10).map((stat) => (
+          <div
+            key={stat.color}
+            style={{ backgroundColor: stat.color, width: `${stat.percentage}%` }}
+            title={`${stat.color}: ${stat.percentage}%`}
+          />
+        ))}
+      </div>
+      <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+        {colorFrequency.slice(0, 6).map((stat) => (
+          <div key={stat.color} className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: stat.color }} />
+              <span className="text-[10px] opacity-60 font-mono">{stat.color}</span>
             </div>
-            <span style={{ fontFamily: DESIGN.fontDisplay, fontSize: 11, color: DESIGN.textMuted, minWidth: 30, textAlign: "right" }}>
-              {count}
-            </span>
+            <span className="text-[10px] font-bold">{stat.percentage}%</span>
           </div>
         ))}
       </div>
