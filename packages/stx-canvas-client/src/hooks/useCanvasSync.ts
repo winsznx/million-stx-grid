@@ -2,8 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { fetchAllPixelEvents } from "../grid/fetchAllEvents";
 import { replayEventsToGrid } from "../grid/replayEvents";
 import { CanvasSyncResult, GridState } from "../types";
-
-const DEFAULT_POLL_INTERVAL_MS = 15_000;
+import { DEFAULT_POLL_INTERVAL_MS } from "../constants";
 
 export function useCanvasSync(
   contractIdentifier: string,
