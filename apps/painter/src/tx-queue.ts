@@ -6,9 +6,15 @@ import {
   AnchorMode,
   PostConditionMode,
 } from "@stacks/transactions";
-import { StacksMainnet } from "@stacks/network";
+import { StacksMainnet, StacksTestnet, type StacksNetwork } from "@stacks/network";
 import { PixelInstruction } from "./image-parser";
 import * as logger from "./logger";
+
+function resolveNetwork(): StacksNetwork {
+  const id = process.env.PAINTER_NETWORK ?? "mainnet";
+  if (id === "testnet") return new StacksTestnet();
+  return new StacksMainnet();
+}
 
 /**
  * Utility to wait for a specified duration.
@@ -36,7 +42,7 @@ export async function broadcastPixelQueue(
   delayMs: number,
   dryRun: boolean
 ): Promise<void> {
-  const network = new StacksMainnet();
+  const network = resolveNetwork();
   const total = pixels.length;
   const startTime = Date.now();
 
