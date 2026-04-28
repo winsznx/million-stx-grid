@@ -42,7 +42,7 @@ function parseReprValue(repr: string): Record<string, string> | null {
   const timestampMatch = repr.match(/timestamp:\s*u(\d+)/);
   if (timestampMatch) result.timestamp = timestampMatch[1];
 
-  if (!result.event || !result.x || !result.y || !result.color) return null;
+  if (!result.event || !result.x || !result.y || !result.color || !result.painter) return null;
   return result;
 }
 
