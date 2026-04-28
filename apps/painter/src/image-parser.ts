@@ -1,5 +1,6 @@
 import sharp from "sharp";
-import { rgbToHex } from "./color-utils";
+import { rgbToHex, quantizeToNearestPaletteColor } from "./color-utils";
+import { DEFAULT_PALETTE } from "./palette";
 
 /**
  * Represents a single pixel painting instruction.
@@ -87,7 +88,7 @@ export async function parseImageToPixels(
       pixels.push({
         x: absX,
         y: absY,
-        color: rgbToHex(r, g, b),
+        color: quantizeToNearestPaletteColor(rgbToHex(r, g, b), DEFAULT_PALETTE),
       });
     }
   }
