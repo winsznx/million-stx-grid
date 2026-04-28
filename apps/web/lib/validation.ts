@@ -15,10 +15,12 @@ export function isValidGridCoord(x: number, y: number): boolean {
 }
 
 /**
- * Validates if a color is part of the official palette.
+ * Validates if a color is part of the official palette. Case-insensitive so
+ * lowercased values arriving from contract events still match.
  */
 export function isValidPaletteColor(color: string): boolean {
-  return (COLOR_PALETTE as readonly string[]).includes(color);
+  const upper = color.toUpperCase();
+  return (COLOR_PALETTE as readonly string[]).some((c) => c.toUpperCase() === upper);
 }
 
 /**
