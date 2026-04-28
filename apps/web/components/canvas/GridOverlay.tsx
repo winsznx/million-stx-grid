@@ -1,6 +1,6 @@
 "use client";
 
-import { GRID_SIZE, PIXEL_SIZE, CANVAS_SIZE } from "@/lib/constants";
+import { PIXEL_SIZE, CANVAS_SIZE } from "@/lib/constants";
 
 /**
  * Optional grid line overlay for better visibility at high zoom levels.
