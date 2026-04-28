@@ -116,6 +116,7 @@ Images are resized to fit within 32×32 and the remaining grid space. Fully tran
 PAINTER_PRIVATE_KEY=<bot wallet private key>
 PAINTER_CONTRACT_DEPLOYER=<deployer address>
 PAINTER_CONTRACT_NAME=stx-canvas
+PAINTER_NETWORK=mainnet            # "mainnet" or "testnet"
 ```
 
 ## Web Application
