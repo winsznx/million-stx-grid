@@ -9,7 +9,7 @@
  */
 export function formatPixelLine(index: number, total: number, x: number, y: number, color: string): string {
   const progress = `[${index + 1}/${total}]`.padEnd(String(total).length * 2 + 3);
-  return `${progress} (${x}, ${y}) → ${color}`;
+  return `${progress} (${x}, ${y}) -> ${color}`;
 }
 
 /**
