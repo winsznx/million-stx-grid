@@ -24,6 +24,6 @@ export function parseEventRepr(repr: string): ParsedPixelEvent | null {
   const eventMatch = repr.match(/event:\s*"([^"]+)"/);
   if (eventMatch) result.event = eventMatch[1];
 
-  if (!result.event || !result.x || !result.y || !result.color) return null;
+  if (!result.event || !result.x || !result.y || !result.color || !result.painter) return null;
   return result as ParsedPixelEvent;
 }
