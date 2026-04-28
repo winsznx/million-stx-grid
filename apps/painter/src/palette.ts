@@ -11,5 +11,5 @@ export const DEFAULT_PALETTE: string[] = [
   "#FF6B35", "#00FF94", "#7B61FF", "#FF3C6E",
   "#00CFFF", "#FFCC00", "#FF85A1", "#B5EAD7",
   "#C7B8EA", "#FF9AA2", "#FFB7B2", "#FFDAC1",
-  "#E2F0CB", "#B5EAD7", "#C7B8EA", "#0a0a0f",
+  "#E2F0CB", "#3D8BFD", "#FFE066", "#0A0A0F",
 ];
