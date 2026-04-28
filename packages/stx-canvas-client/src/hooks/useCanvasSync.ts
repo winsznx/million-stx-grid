@@ -69,7 +69,12 @@ export function useCanvasSync(
   const refresh = useCallback(() => {
     consecutiveErrorsRef.current = 0;
     fetchAndReplay(false);
-  }, [fetchAndReplay]);
+    if (configValid && !intervalRef.current) {
+      intervalRef.current = setInterval(() => {
+        fetchAndReplay(false);
+      }, pollingIntervalMs);
+    }
+  }, [fetchAndReplay, configValid, pollingIntervalMs]);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -85,6 +90,7 @@ export function useCanvasSync(
       isMountedRef.current = false;
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
   }, [fetchAndReplay, pollingIntervalMs, configValid]);
