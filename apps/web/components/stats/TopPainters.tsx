@@ -1,17 +1,16 @@
 "use client";
 
-import { useTopPainters } from "@/hooks/useTopPainters";
+import type { PainterCount } from "@/hooks/useTopPainters";
 import { truncateAddress } from "@/lib/stacks-utils";
-import { Spinner } from "../ui/Spinner";
+
+interface TopPaintersProps {
+  painters: PainterCount[];
+}
 
 /**
  * Leaderboard component showing most active addresses on the grid.
  */
-export function TopPainters() {
-  const { painters, loading } = useTopPainters();
-
-  if (loading) return <div className="flex justify-center p-8"><Spinner /></div>;
-
+export function TopPainters({ painters }: TopPaintersProps) {
   return (
     <div className="space-y-2">
       <h3 className="text-sm font-bold opacity-50 mb-4">TOP PAINTERS</h3>
