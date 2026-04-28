@@ -26,10 +26,10 @@ export function PendingPixelOverlay({ pixels, zoom }: PendingPixelOverlayProps) 
           key={`${pixel.x},${pixel.y}`}
           className="absolute animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.5)]"
           style={{
-            left: pixel.x * PIXEL_SIZE,
-            top: pixel.y * PIXEL_SIZE,
-            width: PIXEL_SIZE,
-            height: PIXEL_SIZE,
+            left: pixel.x * PIXEL_SIZE * zoom,
+            top: pixel.y * PIXEL_SIZE * zoom,
+            width: PIXEL_SIZE * zoom,
+            height: PIXEL_SIZE * zoom,
             backgroundColor: pixel.color,
             zIndex: 10,
           }}
