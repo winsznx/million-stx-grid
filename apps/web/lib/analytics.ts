@@ -3,6 +3,11 @@ import type { PixelEvent } from "@winsznx/stx-canvas-client";
 export function getActivityByHour(events: PixelEvent[]): Map<number, number> {
   const hourCounts = new Map<number, number>();
   for (let i = 0; i < 24; i++) hourCounts.set(i, 0);
+  for (const event of events) {
+    if (event.timestamp === null) continue;
+    const hour = new Date(event.timestamp * 1000).getUTCHours();
+    hourCounts.set(hour, (hourCounts.get(hour) ?? 0) + 1);
+  }
   return hourCounts;
 }
 
