@@ -1,17 +1,26 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
+import type { PixelEvent } from "@winsznx/stx-canvas-client";
+import { TOP_PAINTERS_LIMIT } from "@/lib/constants";
 
-/**
- * Hook for fetching and managing top painters leaderboard.
- */
-export function useTopPainters() {
-  const [painters, setPainters] = useState<{ address: string; count: number }[]>([]);
-  const [loading, setLoading] = useState(true);
+export interface PainterCount {
+  address: string;
+  count: number;
+}
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
-  return { painters, loading };
+export function useTopPainters(
+  events: PixelEvent[],
+  limit: number = TOP_PAINTERS_LIMIT
+): PainterCount[] {
+  return useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const event of events) {
+      counts.set(event.painter, (counts.get(event.painter) ?? 0) + 1);
+    }
+    return Array.from(counts.entries())
+      .map(([address, count]) => ({ address, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, limit);
+  }, [events, limit]);
 }
