@@ -1,12 +1,12 @@
 "use client";
 
-import { connect, getLocalStorage } from "@stacks/connect";
+import { connect, disconnect, getLocalStorage } from "@stacks/connect";
 import { Button } from "../ui/Button";
 import { truncateAddress } from "@/lib/stacks-utils";
 import { useState } from "react";
 
 interface WalletConnectButtonProps {
-  onConnect?: (address: string) => void;
+  onConnect?: (address: string | null) => void;
 }
 
 /**
@@ -24,18 +24,20 @@ export function WalletConnectButton({ onConnect }: WalletConnectButtonProps) {
         setAddress(stxAddress);
         onConnect?.(stxAddress);
       }
-    } catch {
-      // user cancelled
+    } catch (error) {
+      console.warn("[wallet] connect failed", error);
     }
   };
 
   const handleDisconnect = () => {
+    disconnect();
     setAddress(null);
+    onConnect?.(null);
   };
 
   return (
-    <Button 
-      variant={address ? "secondary" : "primary"} 
+    <Button
+      variant={address ? "secondary" : "primary"}
       onClick={address ? handleDisconnect : handleConnect}
     >
       {address ? truncateAddress(address) : "CONNECT WALLET"}
