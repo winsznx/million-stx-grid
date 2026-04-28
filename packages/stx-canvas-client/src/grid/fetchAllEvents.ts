@@ -1,4 +1,5 @@
 import { PixelEvent } from "../types";
+import { HIRO_EVENTS_PAGE_SIZE } from "../constants";
 
 interface HiroEventValue {
   hex: string;
@@ -51,11 +52,10 @@ export async function fetchAllPixelEvents(
   hiroApiBase: string
 ): Promise<PixelEvent[]> {
   const events: PixelEvent[] = [];
-  const PAGE_SIZE = 50;
   let offset = 0;
 
   while (true) {
-    const url = `${hiroApiBase}/extended/v1/contract/${contractIdentifier}/events?limit=${PAGE_SIZE}&offset=${offset}`;
+    const url = `${hiroApiBase}/extended/v1/contract/${contractIdentifier}/events?limit=${HIRO_EVENTS_PAGE_SIZE}&offset=${offset}`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -84,8 +84,8 @@ export async function fetchAllPixelEvents(
       });
     }
 
-    if (data.results.length < PAGE_SIZE) break;
-    offset += PAGE_SIZE;
+    if (data.results.length < HIRO_EVENTS_PAGE_SIZE) break;
+    offset += HIRO_EVENTS_PAGE_SIZE;
   }
 
   events.sort((a, b) => a.blockHeight - b.blockHeight);
