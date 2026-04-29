@@ -16,7 +16,6 @@ export async function GET() {
   const cols = 10;
   const rows = 6;
   const gridWidth = cols * squareSize;
-  const gridHeight = rows * squareSize;
 
   return new ImageResponse(
     (
