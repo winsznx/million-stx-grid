@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode, useMemo, useCallback } from "react";
+import { createContext, useContext, useState, ReactNode, useMemo } from "react";
 
 interface WalletContextValue {
   address: string | null;
@@ -16,13 +16,10 @@ const WalletContext = createContext<WalletContextValue | undefined>(undefined);
 export function WalletProvider({ children }: { children: ReactNode }) {
   const [address, setAddress] = useState<string | null>(null);
 
-  const isConnected = !!address;
-
-  const value = useMemo(() => ({
-    address,
-    setAddress,
-    isConnected
-  }), [address]);
+  const value = useMemo<WalletContextValue>(
+    () => ({ address, setAddress, isConnected: !!address }),
+    [address]
+  );
 
   return (
     <WalletContext.Provider value={value}>
