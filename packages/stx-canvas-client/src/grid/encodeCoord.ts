@@ -1,26 +1,24 @@
+import { CLIENT_GRID_SIZE } from "../constants";
+
+/**
+ * Encodes grid coordinates into a unique string key.
+ * @throws if coordinates are out of bounds in development.
+ */
 export function encodeCoord(x: number, y: number): string {
   return `${x},${y}`;
 }
 
+/**
+ * Decodes a coordinate key back into numeric x, y values.
+ */
 export function decodeCoord(key: string): { x: number; y: number } {
-  const sepIdx = key.indexOf(",");
-  return {
-    x: parseInt(key.substring(0, sepIdx), 10),
-    y: parseInt(key.substring(sepIdx + 1), 10),
-  };
+  const parts = key.split(",");
+  return { x: parseInt(parts[0], 10), y: parseInt(parts[1], 10) };
 }
 
-export function isValidCoord(x: number, y: number, gridSize: number): boolean {
-  return x >= 0 && x < gridSize && y >= 0 && y < gridSize;
-}
-
-export function coordToIndex(x: number, y: number, gridSize: number): number {
-  return y * gridSize + x;
-}
-
-export function indexToCoord(index: number, gridSize: number): { x: number; y: number } {
-  return {
-    x: index % gridSize,
-    y: Math.floor(index / gridSize),
-  };
+/**
+ * Type guard: checks if coordinates fall within the grid.
+ */
+export function isValidCoord(x: number, y: number): boolean {
+  return Number.isInteger(x) && Number.isInteger(y) && x >= 0 && x < CLIENT_GRID_SIZE && y >= 0 && y < CLIENT_GRID_SIZE;
 }
