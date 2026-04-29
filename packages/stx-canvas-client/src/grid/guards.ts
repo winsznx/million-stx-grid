@@ -1,18 +1,26 @@
 import { PixelEvent } from "../types";
 
-export function isPixelEvent(value: unknown): value is PixelEvent {
-  if (!value || typeof value !== "object") return false;
-  const obj = value as Record<string, unknown>;
+/**
+ * Runtime type guard for PixelEvent objects.
+ */
+export function isPixelEvent(obj: unknown): obj is PixelEvent {
+  if (typeof obj !== "object" || obj === null) return false;
+  const o = obj as Record<string, unknown>;
   return (
-    typeof obj.x === "number" &&
-    typeof obj.y === "number" &&
-    typeof obj.color === "string" &&
-    typeof obj.painter === "string" &&
-    typeof obj.txId === "string" &&
-    typeof obj.blockHeight === "number"
+    typeof o.x === "number" &&
+    typeof o.y === "number" &&
+    typeof o.color === "string" &&
+    typeof o.painter === "string" &&
+    typeof o.txId === "string" &&
+    typeof o.blockHeight === "number"
   );
 }
 
+/**
+ * Assertion guard that throws if value is not a PixelEvent.
+ */
 export function assertPixelEvent(value: unknown): asserts value is PixelEvent {
-  if (!isPixelEvent(value)) throw new Error("Invalid PixelEvent shape");
+  if (!isPixelEvent(value)) {
+    throw new TypeError("Expected a valid PixelEvent, received: " + typeof value);
+  }
 }
