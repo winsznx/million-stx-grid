@@ -1,24 +1,22 @@
-import { GridState } from "../types";
+import type { GridState } from "../types";
 import { decodeCoord } from "./encodeCoord";
 
+/** Immutable snapshot of grid statistics at a point in time. */
 export interface GridSnapshot {
-  totalPixels: number;
-  uniquePainters: number;
-  uniqueColors: number;
-  minX: number;
-  maxX: number;
-  minY: number;
-  maxY: number;
+  readonly totalPixels: number;
+  readonly uniquePainters: number;
+  readonly uniqueColors: number;
+  readonly minX: number;
+  readonly maxX: number;
+  readonly minY: number;
+  readonly maxY: number;
 }
 
+/** Creates a statistical snapshot from current grid state. */
 export function createGridSnapshot(grid: GridState): GridSnapshot {
   const painters = new Set<string>();
   const colors = new Set<string>();
-  let minX = Infinity;
-  let maxX = -Infinity;
-  let minY = Infinity;
-  let maxY = -Infinity;
-
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
   for (const [key, pixel] of grid) {
     painters.add(pixel.painter);
     colors.add(pixel.color);
@@ -28,7 +26,6 @@ export function createGridSnapshot(grid: GridState): GridSnapshot {
     if (y < minY) minY = y;
     if (y > maxY) maxY = y;
   }
-
   return {
     totalPixels: grid.size,
     uniquePainters: painters.size,
