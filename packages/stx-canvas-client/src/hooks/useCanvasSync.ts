@@ -1,98 +1,58 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+"use client";
+
+import { useEffect, useState, useCallback, useRef } from "react";
+import type { GridState, PixelEvent } from "../types";
 import { fetchAllPixelEvents } from "../grid/fetchAllEvents";
 import { replayEventsToGrid } from "../grid/replayEvents";
-import { CanvasSyncResult, GridState } from "../types";
-import { DEFAULT_POLL_INTERVAL_MS } from "../constants";
 
+interface CanvasSyncState {
+  readonly grid: GridState;
+  readonly events: readonly PixelEvent[];
+  readonly totalEvents: number;
+  readonly isLoading: boolean;
+  readonly error: string | null;
+  readonly refresh: () => void;
+}
+
+/**
+ * React hook that continuously syncs grid state from the Hiro API.
+ * @param contractId - The deployed contract identifier.
+ * @param apiBase - The Hiro API base URL.
+ * @param pollMs - Polling interval in milliseconds.
+ */
 export function useCanvasSync(
-  contractIdentifier: string,
-  hiroApiBase: string,
-  pollingIntervalMs: number = DEFAULT_POLL_INTERVAL_MS
-): CanvasSyncResult {
+  contractId: string,
+  apiBase: string,
+  pollMs: number
+): CanvasSyncState {
   const [grid, setGrid] = useState<GridState>(new Map());
-  const [totalEvents, setTotalEvents] = useState(0);
+  const [events, setEvents] = useState<readonly PixelEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const isMountedRef = useRef(true);
-  const consecutiveErrorsRef = useRef(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const configValid =
-    !!contractIdentifier &&
-    !contractIdentifier.includes("undefined") &&
-    !!hiroApiBase &&
-    !hiroApiBase.includes("undefined");
-
-  const fetchAndReplay = useCallback(
-    async (isInitial: boolean) => {
-      if (!configValid) {
-        setError("Missing contract configuration. Check environment variables.");
-        setIsLoading(false);
-        return;
-      }
-
-      if (isInitial) {
-        setIsLoading(true);
-      } else {
-        setIsRefreshing(true);
-      }
+  const fetchData = useCallback(async () => {
+    try {
+      const allEvents = await fetchAllPixelEvents(contractId, apiBase);
+      const newGrid = replayEventsToGrid(allEvents);
+      setEvents(allEvents);
+      setGrid(newGrid);
       setError(null);
-
-      try {
-        const events = await fetchAllPixelEvents(contractIdentifier, hiroApiBase);
-        if (!isMountedRef.current) return;
-        const newGrid = replayEventsToGrid(events);
-        setGrid(newGrid);
-        setTotalEvents(events.length);
-        consecutiveErrorsRef.current = 0;
-      } catch (err) {
-        if (!isMountedRef.current) return;
-        consecutiveErrorsRef.current += 1;
-        setError(err instanceof Error ? err.message : "Failed to fetch canvas state");
-
-        if (consecutiveErrorsRef.current >= 3 && intervalRef.current) {
-          clearInterval(intervalRef.current);
-          intervalRef.current = null;
-        }
-      } finally {
-        if (isMountedRef.current) {
-          setIsLoading(false);
-          setIsRefreshing(false);
-        }
-      }
-    },
-    [contractIdentifier, hiroApiBase, configValid]
-  );
-
-  const refresh = useCallback(() => {
-    consecutiveErrorsRef.current = 0;
-    fetchAndReplay(false);
-    if (configValid && !intervalRef.current) {
-      intervalRef.current = setInterval(() => {
-        fetchAndReplay(false);
-      }, pollingIntervalMs);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to sync canvas";
+      setError(message);
+    } finally {
+      setIsLoading(false);
     }
-  }, [fetchAndReplay, configValid, pollingIntervalMs]);
+  }, [contractId, apiBase]);
 
   useEffect(() => {
-    isMountedRef.current = true;
-    fetchAndReplay(true);
-
-    if (configValid) {
-      intervalRef.current = setInterval(() => {
-        fetchAndReplay(false);
-      }, pollingIntervalMs);
-    }
-
+    fetchData();
+    intervalRef.current = setInterval(fetchData, pollMs);
     return () => {
-      isMountedRef.current = false;
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
+      if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [fetchAndReplay, pollingIntervalMs, configValid]);
+  }, [fetchData, pollMs]);
 
-  return { grid, totalEvents, isLoading, isRefreshing, error, refresh };
+  return { grid, events, totalEvents: events.length, isLoading, error, refresh: fetchData };
 }
