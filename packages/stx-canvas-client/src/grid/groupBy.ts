@@ -1,7 +1,13 @@
+/**
+ * Groups items by a computed key.
+ * @param items - The array to group.
+ * @param keyFn - Function that extracts the grouping key.
+ * @returns A Map of keys to arrays of items.
+ */
 export function groupBy<T, K extends string | number>(
   items: readonly T[],
   keyFn: (item: T) => K
-): Map<K, T[]> {
+): ReadonlyMap<K, readonly T[]> {
   const result = new Map<K, T[]>();
   for (const item of items) {
     const key = keyFn(item);
