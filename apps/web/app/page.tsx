@@ -67,8 +67,8 @@ export default function Home() {
         if (stxAddress) {
           setWalletAddress(stxAddress);
         }
-      } catch {
-        // user cancelled
+      } catch (error) {
+        console.warn("[home] wallet connect failed", error);
       }
       return;
     }
