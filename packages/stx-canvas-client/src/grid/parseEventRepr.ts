@@ -1,29 +1,28 @@
-interface ParsedPixelEvent {
-  event: string;
-  x: string;
-  y: string;
-  color: string;
-  painter: string;
+/** Parsed fields from a Clarity print event repr string. */
+export interface ParsedPixelEvent {
+  readonly event: string;
+  readonly x: string;
+  readonly y: string;
+  readonly color: string;
+  readonly painter: string;
 }
 
+const REGEX_COLOR = /color:\s*"([^"]+)"/;
+const REGEX_X = /x:\s*u(\d+)/;
+const REGEX_Y = /y:\s*u(\d+)/;
+const REGEX_PAINTER = /painter:\s*([A-Z0-9]+)/i;
+const REGEX_EVENT = /event:\s*"([^"]+)"/;
+
+/**
+ * Parses a Clarity repr string into structured event data.
+ * @returns Parsed event or null if the repr is malformed.
+ */
 export function parseEventRepr(repr: string): ParsedPixelEvent | null {
-  const result: Partial<ParsedPixelEvent> = {};
-
-  const colorMatch = repr.match(/color:\s*"([^"]+)"/);
-  if (colorMatch) result.color = colorMatch[1];
-
-  const xMatch = repr.match(/x:\s*u(\d+)/);
-  if (xMatch) result.x = xMatch[1];
-
-  const yMatch = repr.match(/y:\s*u(\d+)/);
-  if (yMatch) result.y = yMatch[1];
-
-  const painterMatch = repr.match(/painter:\s*([A-Z0-9]+)/i);
-  if (painterMatch) result.painter = painterMatch[1];
-
-  const eventMatch = repr.match(/event:\s*"([^"]+)"/);
-  if (eventMatch) result.event = eventMatch[1];
-
-  if (!result.event || !result.x || !result.y || !result.color || !result.painter) return null;
-  return result as ParsedPixelEvent;
+  const color = REGEX_COLOR.exec(repr)?.[1];
+  const x = REGEX_X.exec(repr)?.[1];
+  const y = REGEX_Y.exec(repr)?.[1];
+  const painter = REGEX_PAINTER.exec(repr)?.[1];
+  const event = REGEX_EVENT.exec(repr)?.[1];
+  if (!event || !x || !y || !color || !painter) return null;
+  return { event, x, y, color, painter };
 }
