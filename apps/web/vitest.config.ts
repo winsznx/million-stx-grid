@@ -7,7 +7,10 @@ export default defineConfig({
     include: ["**/*.test.ts", "**/*.test.tsx"],
     coverage: {
       reporter: ["text", "html"],
+      include: ["lib/**", "hooks/**", "components/**"],
+      exclude: ["**/*.test.*", "**/*.d.ts"],
     },
+    setupFiles: ["./tests/setup.ts"],
   },
   resolve: {
     alias: {
