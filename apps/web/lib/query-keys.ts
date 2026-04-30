@@ -1,3 +1,7 @@
+/**
+ * Centralized query key factory for data fetching.
+ * Ensures consistent cache invalidation across the app.
+ */
 export const queryKeys = {
   all: ["stx-canvas"] as const,
   events: () => [...queryKeys.all, "events"] as const,
