@@ -1,9 +1,15 @@
 interface RetryOptions {
-  maxAttempts?: number;
-  delayMs?: number;
-  backoffFactor?: number;
+  readonly maxAttempts?: number;
+  readonly delayMs?: number;
+  readonly backoffFactor?: number;
 }
 
+/**
+ * Retries an async function with exponential backoff.
+ * @param fn - The async function to retry.
+ * @param options - Configuration for retry behavior.
+ * @throws The last error if all attempts fail.
+ */
 export async function retryWithBackoff<T>(
   fn: () => Promise<T>,
   options: RetryOptions = {}
@@ -18,7 +24,7 @@ export async function retryWithBackoff<T>(
       lastError = err;
       if (attempt < maxAttempts - 1) {
         const wait = delayMs * Math.pow(backoffFactor, attempt);
-        await new Promise((r) => setTimeout(r, wait));
+        await new Promise((resolve) => setTimeout(resolve, wait));
       }
     }
   }
