@@ -1,3 +1,7 @@
+/**
+ * Reads a required environment variable.
+ * @throws Error if the variable is not set.
+ */
 export function requireEnv(key: string): string {
   const value = process.env[key];
   if (!value) {
@@ -6,6 +10,9 @@ export function requireEnv(key: string): string {
   return value;
 }
 
+/**
+ * Reads an optional environment variable with a fallback.
+ */
 export function optionalEnv(key: string, fallback: string): string {
   return process.env[key] ?? fallback;
 }
