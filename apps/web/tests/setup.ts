@@ -1,5 +1,5 @@
-import { afterEach } from "vitest";
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
+/**
+ * Vitest global setup.
+ * Extends expect with DOM-specific matchers.
+ */
+import "@testing-library/jest-dom/vitest";
