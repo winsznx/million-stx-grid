@@ -2,6 +2,7 @@ import type { GridState } from "@winsznx/stx-canvas-client";
 import { GRID_SIZE } from "./constants";
 import { encodeCoord } from "@winsznx/stx-canvas-client";
 
+/** Serializes the grid state to a JSON string. */
 export function gridToJSON(grid: GridState): string {
   const obj: Record<string, { color: string; painter: string }> = {};
   for (const [key, value] of grid.entries()) {
@@ -10,8 +11,9 @@ export function gridToJSON(grid: GridState): string {
   return JSON.stringify(obj, null, 2);
 }
 
+/** Serializes the grid state to CSV format. */
 export function gridToCSV(grid: GridState): string {
-  const lines = ["x,y,color,painter"];
+  const lines: string[] = ["x,y,color,painter"];
   for (let y = 0; y < GRID_SIZE; y++) {
     for (let x = 0; x < GRID_SIZE; x++) {
       const pixel = grid.get(encodeCoord(x, y));
